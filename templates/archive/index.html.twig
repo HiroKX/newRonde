@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Archive index{% endblock %}
+
+{% block body %}
+<div class="divperso mx-auto">
+    <h1>Archive index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Denom</th>
+                <th>Annee</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for archive in archives %}
+            <tr>
+                <td>{{ archive.id }}</td>
+                <td>{{ archive.denom }}</td>
+                <td>{{ archive.annee }}</td>
+                <td>
+                    <a href="{{ path('archive_show', {'id': archive.id}) }}">show</a>
+                    <a href="{{ path('archive_edit', {'id': archive.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('archive_new') }}">Create new</a>
+</div>
+{% endblock %}

@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "ckeditor-youtube-plugin": "^2.1.19",
+    "ckeditor4": "^4.17.1"
+  }
+}
