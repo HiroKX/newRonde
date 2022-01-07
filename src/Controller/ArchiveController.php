@@ -11,9 +11,16 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+/**
+ *
+ */
 #[Route('/archive')]
 class ArchiveController extends AbstractController
 {
+    /**
+     * @param ArchiveRepository $archiveRepository
+     * @return Response
+     */
     #[Route('/', name: 'archive_index', methods: ['GET'])]
     public function index(ArchiveRepository $archiveRepository): Response
     {
@@ -22,6 +29,11 @@ class ArchiveController extends AbstractController
         ]);
     }
 
+    /**
+     * @param Request $request
+     * @param EntityManagerInterface $entityManager
+     * @return Response
+     */
     #[Route('/new', name: 'archive_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
@@ -42,6 +54,10 @@ class ArchiveController extends AbstractController
         ]);
     }
 
+    /**
+     * @param Archive $archive
+     * @return Response
+     */
     #[Route('/{id}', name: 'archive_show', methods: ['GET'])]
     public function show(Archive $archive): Response
     {
@@ -50,6 +66,12 @@ class ArchiveController extends AbstractController
         ]);
     }
 
+    /**
+     * @param Request $request
+     * @param Archive $archive
+     * @param EntityManagerInterface $entityManager
+     * @return Response
+     */
     #[Route('/{id}/edit', name: 'archive_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Archive $archive, EntityManagerInterface $entityManager): Response
     {
@@ -68,6 +90,12 @@ class ArchiveController extends AbstractController
         ]);
     }
 
+    /**
+     * @param Request $request
+     * @param Archive $archive
+     * @param EntityManagerInterface $entityManager
+     * @return Response
+     */
     #[Route('/{id}', name: 'archive_delete', methods: ['POST'])]
     public function delete(Request $request, Archive $archive, EntityManagerInterface $entityManager): Response
     {
