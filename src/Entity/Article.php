@@ -33,7 +33,6 @@ class Article
     private $annee;
 
     #[ORM\Column(type: 'datetime')]
-    #[Assert\DateTime]
     private $dateAdd;
 
     #[ORM\OneToMany(mappedBy: 'article', targetEntity: Attachments::class, orphanRemoval: true)]
@@ -117,18 +116,6 @@ class Article
     public function setDateAdd(\DateTimeInterface $dateAdd): self
     {
         $this->dateAdd = $dateAdd;
-
-        return $this;
-    }
-
-    public function getFile(): ?array
-    {
-        return $this->file;
-    }
-
-    public function setFile(?array $file): self
-    {
-        $this->file = $file;
 
         return $this;
     }

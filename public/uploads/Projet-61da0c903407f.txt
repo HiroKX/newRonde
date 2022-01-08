@@ -1,0 +1,68 @@
+(* Projet de Sammy DEMAUX et Robin LAGLER *)
+(*   Exercice 1   *)
+
+(* 1 : *)
+let f(x,(y,z)) = ((x,y),z)
+(* f : 'a * ('b * 'c) -> ('a * 'b) * 'c = <fun>*);;
+
+(* 2 : *)
+let g f x = f x
+(* g : ('a -> 'b) -> 'a -> 'b = <fun> *);;
+
+
+
+(*   Exercice 2   *)
+
+let rec mystere = function
+	[] -> []
+	| x::l -> x@(mystere l);;
+
+(* 1 : mystere : 'a list list -> 'a list = <fun> *) 
+(* 2 : *)
+mystere [[1]; [2]; [3]; [4; 5; 6]; [7; 8]]
+	(* int list = [1; 2; 3; 4; 5; 6; 7; 8] *);;
+mystere [[[1]; [2]]; [[3]; [4]]; [[5]; [6]; [7]]; [[8]]]
+	(* int list = [[1]; [2]; [3]; [4]; [5]; [6]; [7]; [8]] *);;
+(* mystere "applatie" une liste  *)
+(* On peut la rendre plus efficace (en évitant les @) de la manière suivante : *)
+let rec mystere2 = function
+	[] -> []
+	| []::l -> mystere2 l
+	| (h::t)::l -> h::(mystere (t::l));;
+mystere2 [[1]; [2]; [3]; [4; 5; 6]; [7; 8]]
+	(* int list = [1; 2; 3; 4; 5; 6; 7; 8] *);;
+mystere2 [[[1]; [2]]; [[3]; [4]]; [[5]; [6]; [7]]; [[8]]]
+	(* int list = [[1]; [2]; [3]; [4]; [5]; [6]; [7]; [8]] *);;
+
+
+
+
+(*   Exercice 3   *)
+(* 1 : *)
+let f1 ((x,y),z) = (x,(y,z))
+	(* f1 : ('a * 'b) * 'c -> 'a * ('b * 'c *);;
+
+(* 2 : Redéfinition du type 'a arbre*)
+type 'a arbre = | VIDE | Noeud of 'a * 'a arbre * 'a arbre;;
+
+let rec f2 = function
+	| VIDE -> (VIDE, VIDE)
+	| Noeud((a, b), sag, sad) -> let (ga, gb) = f2 sag and (da, db) = f2 sad
+			in (Noeud(a, ga, da), Noeud(b, gb, db))
+	(* f2 : ('a * 'b) arbre -> 'a arbre * 'b arbre = <fun> *);;
+
+
+
+(*   Exercice 4   *)
+(* 1 : Définition de la composition :  *)
+let compose f g x = f (g x);;
+#infix "compose";;
+
+let rec etrange = function
+	[] -> (function x -> x)
+	| x::l -> x compose (etrange l)
+	(* Le type de la fonction est : *)
+	(* etrange : ('a -> 'a) list -> 'a -> 'a = <fun> *);;
+
+(* 2 : etrange calcule la composition d'une liste de fonction :
+	(etrange [f; g; h]) x = f(g(h x)))  *)();;

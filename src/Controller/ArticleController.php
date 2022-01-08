@@ -55,9 +55,13 @@ class ArticleController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $attach = $form->get('attachments')->getData();
-            if ($attach) {
-                $uploader->upload($attach,$article);
+            $attachs = $form->get('attachments')->getData();
+            foreach ($attachs as $attach) {
+                if ($attach) {
+                    $attachement = $uploader->upload($attach);
+                    $attachement->setArticle($article);
+                    $entityManager->persist($attachement);
+                }
             }
             // this condition is needed because the 'brochure' field is not required
             // so the PDF file must be processed only when a file is uploaded

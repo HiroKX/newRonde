@@ -17,7 +17,7 @@ class ArticleType extends AbstractType
             ->add('titre',TextType::class,['label'=>"Titre de l'article"])
             ->add('utitre',TextType::class,['label'=>"Sous-titre de l'article "])
             ->add('contenu',TextType::class,['label'=>"Contenu de l'article "])
-            ->add('attachments', FileType::class,['required'   => false,'multiple' => true,'label'=>'Fichier(s)'])
+            ->add('attachments', FileType::class,['required'   => false,'multiple' => true,'label'=>'Fichier(s)','mapped'=>false])
             ->add('type')
             ->add('annee')
         ;
