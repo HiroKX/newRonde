@@ -4,7 +4,6 @@ namespace App\Form;
 
 use App\Entity\Article;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -18,7 +17,7 @@ class ArticleType extends AbstractType
             ->add('titre',TextType::class,['label'=>"Titre de l'article"])
             ->add('utitre',TextType::class,['label'=>"Sous-titre de l'article "])
             ->add('contenu',TextType::class,['label'=>"Contenu de l'article "])
-            ->add('file', FileType::class,['required'   => false,'multiple' => true,'label'=>'Fichier(s)'])
+            ->add('attachments', FileType::class,['required'   => false,'multiple' => true,'label'=>'Fichier(s)'])
             ->add('type')
             ->add('annee')
         ;

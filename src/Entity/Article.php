@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\ArticleRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ArticleRepository::class)]
@@ -33,6 +35,14 @@ class Article
     #[ORM\Column(type: 'datetime')]
     #[Assert\DateTime]
     private $dateAdd;
+
+    #[ORM\OneToMany(mappedBy: 'article', targetEntity: Attachments::class, orphanRemoval: true)]
+    private $attachments;
+
+    public function __construct()
+    {
+        $this->attachments = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -107,6 +117,48 @@ class Article
     public function setDateAdd(\DateTimeInterface $dateAdd): self
     {
         $this->dateAdd = $dateAdd;
+
+        return $this;
+    }
+
+    public function getFile(): ?array
+    {
+        return $this->file;
+    }
+
+    public function setFile(?array $file): self
+    {
+        $this->file = $file;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Attachments[]
+     */
+    public function getAttachments(): Collection
+    {
+        return $this->attachments;
+    }
+
+    public function addAttachment(Attachments $attachment): self
+    {
+        if (!$this->attachments->contains($attachment)) {
+            $this->attachments[] = $attachment;
+            $attachment->setArticle($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAttachment(Attachments $attachment): self
+    {
+        if ($this->attachments->removeElement($attachment)) {
+            // set the owning side to null (unless already changed)
+            if ($attachment->getArticle() === $this) {
+                $attachment->setArticle(null);
+            }
+        }
 
         return $this;
     }

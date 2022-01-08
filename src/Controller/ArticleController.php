@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Article;
 use App\Form\ArticleType;
+use App\Service\FileUpload;
 use App\Repository\ArticleRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -47,13 +48,20 @@ class ArticleController extends AbstractController
 
 
     #[Route('/new', name: 'article_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    public function new(Request $request, EntityManagerInterface $entityManager, FileUpload $uploader): Response
     {
         $article = new Article();
         $form = $this->createForm(ArticleType::class, $article);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $attach = $form->get('attachments')->getData();
+            if ($attach) {
+                $uploader->upload($attach,$article);
+            }
+            // this condition is needed because the 'brochure' field is not required
+            // so the PDF file must be processed only when a file is uploaded
+
             $entityManager->persist($article);
             $entityManager->flush();
 
