@@ -30,7 +30,8 @@ class Article
     #[ORM\JoinColumn(nullable: false)]
     private $annee;
 
-    #[ORM\Column(type: 'date')]
+    #[ORM\Column(type: 'datetime')]
+    #[Assert\DateTime]
     private $dateAdd;
 
     public function getId(): ?int

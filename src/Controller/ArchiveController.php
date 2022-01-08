@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Archive;
 use App\Form\ArchiveType;
 use App\Repository\ArchiveRepository;
+use App\Repository\ArticleRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -59,10 +60,12 @@ class ArchiveController extends AbstractController
      * @return Response
      */
     #[Route('/{id}', name: 'archive_show', methods: ['GET'])]
-    public function show(Archive $archive): Response
+    public function show(Archive $archive,ArticleRepository $articleRepository): Response
     {
+        $article = $articleRepository->findBy(['annee'=> $archive->getId()]);
         return $this->render('archive/show.html.twig', [
             'archive' => $archive,
+            'articles' => $article
         ]);
     }
 

@@ -2,6 +2,7 @@
 <project version="4">
   <component name="VcsDirectoryMappings">
     <mapping directory="$PROJECT_DIR$" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/public/node_modules/ckeditor4/plugins/newpage/pastefromexcel_1.0" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/public/node_modules/ckeditor4/plugins/pastefromexcel" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/public/node_modules/ckeditor4/plugins/pastefromexcel_1.0" vcs="Git" />
   </component>

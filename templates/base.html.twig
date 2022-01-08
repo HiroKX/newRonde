@@ -29,7 +29,7 @@
     <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav">
             <li class="nav-item active">
-                <a class="nav-link href="{{ path('article_index') }}"">Accueil</a>
+                <a class="nav-link" href="{{ path('index') }}">Accueil</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="{{ path('article_eng') }}">Engagement</a>
@@ -44,9 +44,10 @@
                 <a class="nav-link" href="{{ path('archive_index') }}">Archives</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{{ path('article_new') }}">Contact</a>
+                <a class="nav-link" href="{{ path('contact') }}">Contact</a>
             </li>
 
+            {% if app.user %}
 
                 <li class="nav-item">
                     <a class="nav-link" href="{{ path('article_new') }}">Créer un article</a>
@@ -57,7 +58,7 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{{ path('app_logout') }}">Se déconnecter</a>
                 </li>
-
+            {% endif %}
         </ul>
     </div>
 </nav>
@@ -86,7 +87,7 @@
 <footer class="footer">
     <div class="container" style="max-width: none">
         <p>Made with ♥ ️</p>
-        <a class="link">Connection Admin</a>
+        <a class="link" href="{{ path('login') }}">Connection Admin</a>
     </div>
 </footer>
 </html>

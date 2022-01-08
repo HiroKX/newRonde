@@ -4,6 +4,7 @@
 
         {% block body %}
 <div class="divperso mx-auto">
+    <div class="row" >
                 {% for article in articles %}
                     <div class="col-lg-6 col-md-12">
                         <div class="container">
@@ -13,8 +14,8 @@
                                     <p class="card-text">{{ article.utitre}}</p>
                                     <a href="{{ path('article_show', {'id': article.id}) }}) }}" class="btn btn-primary">En savoir plus !</a>
                                     {% if app.user %}
-                                        <a href="{{ path('deleteArticle',{'articleName':article.id}) }}" class="btn btn-danger">Supprimer l'article</a>
-                                        <a href="{{ path('article_edit', {'id': article.id}) }}" class="btn btn-warning">Modifier l'article</a>
+                                        <a href="{{ path('article_edit',{'id':article.id}) }}" class="btn btn-warning">Modifier l'article</a>
+                                        {{ include('article/_delete_form.html.twig') }}
                                     {% endif %}
                                 </div>
                             </div>
@@ -27,5 +28,6 @@
                         </div>
                     </div>
                 {% endfor %}
+    </div>
 </div>
         {% endblock %}

@@ -3,30 +3,31 @@
 {% block title %}Archive{% endblock %}
 
 {% block body %}
-<div class="divperso mx-auto">
-    <h1>Archive</h1>
+    <div class="mx-auto w-75 align-items-center article">
+        {% if archive is defined %}
+            <h3>{{ archive.denom }}</h3>
+            <h5>{{ archive.annee}}</h5>
+            <p>Les différents articles paru cette année là :</p>
+            <div class="row ">
+                {% for article in articles %}
+                    <div class="col-lg-6 col-md-12">
+                        <div class="container">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ article.titre | raw}}</h5>
+                                    <p class="card-text">{{ article.utitre | raw}}</p>
+                                    <a href="{{ path('article_show',{'id':article.id}) }}" class="btn btn-primary">En savoir plus !</a>
+                                    {% if app.user %}
+                                        <a href="{{ path('article_edit', {'id': article.id}) }}" class="btn btn-warning ">Modifier l'article</a>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ archive.id }}</td>
-            </tr>
-            <tr>
-                <th>Denom</th>
-                <td>{{ archive.denom }}</td>
-            </tr>
-            <tr>
-                <th>Annee</th>
-                <td>{{ archive.annee }}</td>
-            </tr>
-        </tbody>
-    </table>
-
-    <a href="{{ path('archive_index') }}">back to list</a>
-
-    <a href="{{ path('archive_edit', {'id': archive.id}) }}">edit</a>
-
-    {{ include('archive/_delete_form.html.twig') }}
-</div>
+                                        {{ include('article/_delete_form.html.twig') }}
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
 {% endblock %}

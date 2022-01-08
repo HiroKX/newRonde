@@ -4,10 +4,10 @@
 
 {% block body %}
 <div class="divperso mx-auto">
-    <h1>Create new Archive</h1>
+    <h1>Créer une Archive</h1>
 
     {{ include('archive/_form.html.twig') }}
 
-    <a href="{{ path('archive_index') }}">back to list</a>
+    <a href="{{ path('archive_index') }}" class="btn btn-primary mt-2">Retour</a>
 </div>
 {% endblock %}
