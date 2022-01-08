@@ -27,12 +27,11 @@ class FileUpload
         $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
         $safeFilename = $this->slugger->slug($originalFilename);
         $fileName = $safeFilename.'-'.uniqid().'.'.$file->guessExtension();
-
         try {
             $file->move($this->getTargetDirectory(), $fileName);
             $attach = new Attachments();
             $attach->setNom($fileName);
-            $attach->setTaille(10);
+            $attach->setTaille(filesize($this->getTargetDirectory().'/'.$fileName));
             return $attach;
         } catch (FileException $e) {
             // ... handle exception if something happens during file upload
