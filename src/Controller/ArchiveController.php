@@ -13,9 +13,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-/**
- *
- */
 #[Route('/archive')]
 class ArchiveController extends AbstractController
 {
@@ -59,6 +56,7 @@ class ArchiveController extends AbstractController
 
     /**
      * @param Archive $archive
+     * @param ArticleRepository $articleRepository
      * @return Response
      */
     #[Route('/{id}', name: 'archive_show', methods: ['GET'])]

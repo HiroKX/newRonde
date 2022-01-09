@@ -1,0 +1,29 @@
+version: "3"
+
+services:
+  db:
+    image: 'mysql:5.7'
+    environment:
+      - 'MYSQL_ROOT_PASSWORD=toor'
+      - 'MYSQL_DATABASE=ronde'
+      - 'MYSQL_USER=ronde'
+      - 'MYSQL_PASSWORD=ronde'
+      - 'TZ=Europe/Paris'
+    ports:
+      - '3306:3306'
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    restart: always
+    ports:
+      - '8585:80'
+    depends_on:
+      - db
+    environment:
+      MYSQL_ROOT_PASSWORD: toor
+
+  mailhog:
+    image: mailhog/mailhog
+    ports:
+      - '1025:1025'
+      - '8025:8025'

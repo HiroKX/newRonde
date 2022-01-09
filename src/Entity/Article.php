@@ -41,6 +41,7 @@ class Article
     public function __construct()
     {
         $this->attachments = new ArrayCollection();
+        $this->dateAdd = new \DateTime();
     }
 
     public function getId(): ?int
