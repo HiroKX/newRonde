@@ -1,3 +1,4 @@
+
 import ClassicEditor from 'ckeditor5-build-classic-base64-upload';
 
 ClassicEditor
@@ -10,5 +11,6 @@ ClassicEditor
         console.error(error.stack);
     })
 ;
+
 
 console.debug('ckeditor.js loaded');

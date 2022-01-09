@@ -6,6 +6,8 @@ use App\Entity\Article;
 use App\Entity\Attachments;
 use App\Entity\Images;
 use App\Form\ArticleType;
+
+use App\Service\FileUploadService;
 use App\Repository\ArticleRepository;
 use App\Service\FileUploadServiceInterface;
 use Doctrine\ORM\EntityManagerInterface;
