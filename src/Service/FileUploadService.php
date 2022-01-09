@@ -4,6 +4,7 @@ namespace App\Service;
 
 use App\Entity\Attachments;
 use App\Entity\Images;
+use JetBrains\PhpStorm\Pure;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\String\Slugger\SluggerInterface;
@@ -38,7 +39,7 @@ class FileUploadService implements FileUploadServiceInterface
             $attach = new Attachments();
             $attach->setOriginalFilename($originalFilename);
             $attach->setFilename($fileName);
-            $attach->setTaille(filesize($this->getTargetDirectory().'/'.$fileName));
+            $attach->setTaille($this->getSize($this->getTargetDirectory().'/'.$fileName));
         } catch (FileException $e) {
             throw new \RuntimeException('Error during file upload '.$e->getMessage() . ':' . $e->getTraceAsString());
         }
@@ -62,11 +63,20 @@ class FileUploadService implements FileUploadServiceInterface
             $img = new Images();
             $img->setOriginalFilename($originalFilename);
             $img->setNom($fileName);
-            $img->setTaille(filesize($this->getTargetDirectory().'/'.$fileName));
+            $img->setTaille($this->getSize($this->getTargetDirectory().'/'.$fileName));
         } catch (FileException $e) {
             throw new \RuntimeException('Error during file upload '.$e->getMessage() . ':' . $e->getTraceAsString());
         }
-
         return $img;
+    }
+
+    /**
+     * @param string $filename
+     * @return int
+     */
+    #[Pure]
+    private function getSize(string $filename): int
+    {
+        return filesize($this->getTargetDirectory().'/'.$filename);
     }
 }
