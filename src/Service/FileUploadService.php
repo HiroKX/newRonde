@@ -3,6 +3,7 @@
 namespace App\Service;
 
 use App\Entity\Attachments;
+use App\Entity\Images;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\String\Slugger\SluggerInterface;
@@ -34,9 +35,9 @@ class FileUploadService implements FileUploadServiceInterface
 
         try {
             $file->move($this->getTargetDirectory(), $fileName);
-
             $attach = new Attachments();
-            $attach->setNom($fileName);
+            $attach->setOriginalFilename($originalFilename);
+            $attach->setFilename($fileName);
             $attach->setTaille(filesize($this->getTargetDirectory().'/'.$fileName));
         } catch (FileException $e) {
             throw new \RuntimeException('Error during file upload '.$e->getMessage() . ':' . $e->getTraceAsString());
@@ -50,4 +51,22 @@ class FileUploadService implements FileUploadServiceInterface
         return $this->targetDirectory;
     }
 
+    public function uploadImage(UploadedFile $file): Images
+    {
+        $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+        $safeFilename = $this->slugger->slug($originalFilename);
+        $fileName = $safeFilename.'-'.uniqid('', true).'.'.$file->guessExtension();
+
+        try {
+            $file->move($this->getTargetDirectory(), $fileName);
+            $img = new Images();
+            $img->setOriginalFilename($originalFilename);
+            $img->setNom($fileName);
+            $img->setTaille(filesize($this->getTargetDirectory().'/'.$fileName));
+        } catch (FileException $e) {
+            throw new \RuntimeException('Error during file upload '.$e->getMessage() . ':' . $e->getTraceAsString());
+        }
+
+        return $img;
+    }
 }
