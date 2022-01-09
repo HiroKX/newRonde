@@ -34,7 +34,7 @@ class FileUpload
             $attach->setTaille(filesize($this->getTargetDirectory().'/'.$fileName));
             return $attach;
         } catch (FileException $e) {
-            // ... handle exception if something happens during file upload
+            echo $e;
         }
     }
 
