@@ -38,9 +38,17 @@ class Article
     #[ORM\OneToMany(mappedBy: 'article', targetEntity: Attachments::class, orphanRemoval: true)]
     private $attachments;
 
+    #[ORM\Column(type: 'boolean')]
+    private $isGallery;
+
+    #[ORM\OneToMany(mappedBy: 'article', targetEntity: Images::class)]
+    private $images;
+
     public function __construct()
     {
         $this->attachments = new ArrayCollection();
+        $this->dateAdd = new \DateTime();
+        $this->images = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -144,6 +152,48 @@ class Article
             // set the owning side to null (unless already changed)
             if ($attachment->getArticle() === $this) {
                 $attachment->setArticle(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getIsGallery(): ?bool
+    {
+        return $this->isGallery;
+    }
+
+    public function setIsGallery(bool $isGallery): self
+    {
+        $this->isGallery = $isGallery;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Images[]
+     */
+    public function getImages(): Collection
+    {
+        return $this->images;
+    }
+
+    public function addImage(Images $image): self
+    {
+        if (!$this->images->contains($image)) {
+            $this->images[] = $image;
+            $image->setArticle($this);
+        }
+
+        return $this;
+    }
+
+    public function removeImage(Images $image): self
+    {
+        if ($this->images->removeElement($image)) {
+            // set the owning side to null (unless already changed)
+            if ($image->getArticle() === $this) {
+                $image->setArticle(null);
             }
         }
 

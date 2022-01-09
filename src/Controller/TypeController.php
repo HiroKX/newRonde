@@ -15,6 +15,10 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/type')]
 class TypeController extends AbstractController
 {
+    /**
+     * @param TypeRepository $typeRepository
+     * @return Response
+     */
     #[IsGranted('ROLE_ADMIN')]
     #[Route('/', name: 'type_index', methods: ['GET'])]
     public function index(TypeRepository $typeRepository): Response
@@ -23,6 +27,12 @@ class TypeController extends AbstractController
             'types' => $typeRepository->findAll(),
         ]);
     }
+
+    /**
+     * @param Request $request
+     * @param EntityManagerInterface $entityManager
+     * @return Response
+     */
     #[IsGranted('ROLE_ADMIN')]
     #[Route('/new', name: 'type_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
@@ -44,6 +54,10 @@ class TypeController extends AbstractController
         ]);
     }
 
+    /**
+     * @param Type $type
+     * @return Response
+     */
     #[IsGranted('ROLE_ADMIN')]
     #[Route('/{id}', name: 'type_show', methods: ['GET'])]
     public function show(Type $type): Response
@@ -52,6 +66,13 @@ class TypeController extends AbstractController
             'type' => $type,
         ]);
     }
+
+    /**
+     * @param Request $request
+     * @param Type $type
+     * @param EntityManagerInterface $entityManager
+     * @return Response
+     */
     #[IsGranted('ROLE_ADMIN')]
     #[Route('/{id}/edit', name: 'type_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Type $type, EntityManagerInterface $entityManager): Response
@@ -70,6 +91,13 @@ class TypeController extends AbstractController
             'form' => $form,
         ]);
     }
+
+    /**
+     * @param Request $request
+     * @param Type $type
+     * @param EntityManagerInterface $entityManager
+     * @return Response
+     */
     #[IsGranted('ROLE_ADMIN')]
     #[Route('/{id}', name: 'type_delete', methods: ['POST'])]
     public function delete(Request $request, Type $type, EntityManagerInterface $entityManager): Response

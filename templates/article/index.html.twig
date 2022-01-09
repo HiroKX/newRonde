@@ -10,11 +10,11 @@
                         <div class="container">
                             <div class="card">
                                 <div class="card-body">
-                                    <h5 class="card-title">{{ article.titre}}</h5>
-                                    <p class="card-text">{{ article.utitre}}</p>
-                                    <a href="{{ path('article_show', {'id': article.id}) }}) }}" class="btn btn-primary">En savoir plus !</a>
+                                    <h5 class="card-title">{{ article.titre }}</h5>
+                                    <p class="card-text">{{ article.utitre }}</p>
+                                    <a href="{{ path('article_show', {'id': article.id}) }}" class="btn btn-primary">En savoir plus !</a>
                                     {% if app.user %}
-                                        <a href="{{ path('article_edit',{'id':article.id}) }}" class="btn btn-warning">Modifier l'article</a>
+                                        <a href="{{ path('article_edit', {'id': article.id}) }}" class="btn btn-warning">Modifier l'article</a>
                                         {{ include('article/_delete_form.html.twig') }}
                                     {% endif %}
                                 </div>

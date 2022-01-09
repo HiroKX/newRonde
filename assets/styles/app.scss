@@ -1,0 +1,98 @@
+// Bootstrap
+@import "~bootstrap/scss/bootstrap";
+@import "~bootstrap/scss/bootstrap-grid";
+@import "~bootstrap/scss/bootstrap-utilities";
+@import "~bootstrap/scss/bootstrap-reboot";
+
+// Font Awesome
+@import "~@fortawesome/fontawesome-free/scss/fontawesome";
+@import "~@fortawesome/fontawesome-free/scss/brands";
+@import "~@fortawesome/fontawesome-free/scss/solid";
+@import "~@fortawesome/fontawesome-free/scss/regular";
+
+.article, .divperso {
+  margin: 0px 25px;
+  padding: 25px;
+  width: 75%;
+  border-radius: 0px 0px 10px 10px;
+  background-color: #dfdfdf;
+  -webkit-box-shadow: 0px 13px 40px 14px rgba(0, 0, 0, 0.15);
+  box-shadow: 0px 13px 40px 14px rgba(0, 0, 0, 0.15);
+}
+input, select{
+  display:block;
+}
+.img-nav {
+  width: 100px;
+}
+nav{
+  font-size: 1.5em;
+}
+.nav-item:not(.active){
+  border-left:1px grey solid;
+}
+.card{
+  border-radius: 5px;
+  margin-bottom: 10px;
+  -webkit-box-shadow: 0px 13px 40px 14px rgba(0, 0, 0, 0.15);
+  box-shadow: 0px 13px 40px 14px rgba(0, 0, 0, 0.05);
+}
+
+.footer {
+  height: 30px;
+  padding: 10px;
+}
+table{
+  border-collapse:collapse;
+  border:1px solid black;
+}
+
+table td, table th{
+  border:1px solid black !important;
+}
+
+table th{
+  font-weight: bold;
+}
+
+.footer .container {
+  display: inline-flex;
+  justify-content: center;
+}
+
+.footer .container > * {
+  padding: 10px;
+}
+img{
+  width:100%;
+}
+
+@media (max-width: 600px) {
+  .article, .divperso {
+    margin: 0px 25px;
+    padding: 25px;
+    width: 100%;
+    border-radius: 0px 0px 10px 10px;
+    background-color: #dfdfdf;
+    -webkit-box-shadow: 0px 13px 40px 14px rgba(0, 0, 0, 0.15);
+    box-shadow: 0px 13px 40px 14px rgba(0, 0, 0, 0.15);
+  }
+
+  .img-nav {
+    width: 100px;
+  }
+
+  .footer {
+    height: 30px;
+    padding: 10px;
+  }
+
+  .footer .container {
+    display: inline-flex;
+    justify-content: center;
+  }
+
+  .footer .container > * {
+    padding: 10px;
+  }
+}
