@@ -39,7 +39,7 @@ class FileUploadService implements FileUploadServiceInterface
             $attach = new Attachments();
             $attach->setOriginalFilename($originalFilename);
             $attach->setFilename($fileName);
-            $attach->setTaille($this->getSize($this->getTargetDirectory().'/'.$fileName));
+            $attach->setTaille($this->getSize($fileName));
         } catch (FileException $e) {
             throw new \RuntimeException('Error during file upload '.$e->getMessage() . ':' . $e->getTraceAsString());
         }
@@ -63,7 +63,7 @@ class FileUploadService implements FileUploadServiceInterface
             $img = new Images();
             $img->setOriginalFilename($originalFilename);
             $img->setNom($fileName);
-            $img->setTaille($this->getSize($this->getTargetDirectory().'/'.$fileName));
+            $img->setTaille($this->getSize($fileName));
         } catch (FileException $e) {
             throw new \RuntimeException('Error during file upload '.$e->getMessage() . ':' . $e->getTraceAsString());
         }
