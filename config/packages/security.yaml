@@ -46,8 +46,6 @@ security:
         - { path: ^/archive/new, roles: ROLE_ADMIN }
         - { path: ^/archive/\d+$/edit, roles: ROLE_ADMIN }
         - { path: ^/type, roles: ROLE_ADMIN }
-        - { path: ^/efconnect, role: ROLE_ADMIN }
-        - { path: ^/elfinder, role: ROLE_ADMIN }
         # - { path: ^/profile, roles: ROLE_USER }
 
 when@test:
