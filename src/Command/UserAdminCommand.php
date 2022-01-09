@@ -28,7 +28,7 @@ class UserAdminCommand extends Command
      */
     public function __construct(string $name = null, EntityManagerInterface $entityManager, UserPasswordHasherInterface $passwordHasher)
     {
-        parent::__construct($name);
+        parent::__construct('app:user-admin');
         $this->entityManager = $entityManager;
         $this->passwordHasher = $passwordHasher;
     }
