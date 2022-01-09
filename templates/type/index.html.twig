@@ -3,7 +3,8 @@
 {% block title %}Type index{% endblock %}
 
 {% block body %}
-    <h1>Type index</h1>
+<div class="mx-auto w-75 align-items-center article">
+    <h1>Les types d'articles</h1>
 
     <table class="table">
         <thead>
@@ -19,17 +20,17 @@
                 <td>{{ type.id }}</td>
                 <td>{{ type.nom }}</td>
                 <td>
-                    <a href="{{ path('type_show', {'id': type.id}) }}">show</a>
-                    <a href="{{ path('type_edit', {'id': type.id}) }}">edit</a>
+                    <a href="{{ path('type_edit', {'id': type.id}) }}" class ="btn btn-warning">Modifier</a>
                 </td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="3">no records found</td>
+                <td colspan="3">Pas de type trouver.</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
 
-    <a href="{{ path('type_new') }}">Create new</a>
+    <a href="{{ path('type_new') }}" class="btn btn-primary">Créer un type</a>
+</div>
 {% endblock %}

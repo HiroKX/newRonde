@@ -41,7 +41,10 @@ security:
     # Note: Only the *first* access control that matches will be used
     access_control:
         # - { path: ^/admin, roles: ROLE_ADMIN }
+        - { path: ^/article/\d+$/edit, roles: ROLE_ADMIN }
         - { path: ^/article/new, roles: ROLE_ADMIN }
+        - { path: ^/archive/new, roles: ROLE_ADMIN }
+        - { path: ^/archive/\d+$/edit, roles: ROLE_ADMIN }
         # - { path: ^/profile, roles: ROLE_USER }
 
 when@test:

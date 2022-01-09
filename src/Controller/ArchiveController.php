@@ -7,6 +7,7 @@ use App\Form\ArchiveType;
 use App\Repository\ArchiveRepository;
 use App\Repository\ArticleRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -35,6 +36,7 @@ class ArchiveController extends AbstractController
      * @param EntityManagerInterface $entityManager
      * @return Response
      */
+    #[IsGranted('ROLE_ADMIN')]
     #[Route('/new', name: 'archive_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
@@ -75,6 +77,7 @@ class ArchiveController extends AbstractController
      * @param EntityManagerInterface $entityManager
      * @return Response
      */
+    #[IsGranted('ROLE_ADMIN')]
     #[Route('/{id}/edit', name: 'archive_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Archive $archive, EntityManagerInterface $entityManager): Response
     {
@@ -99,6 +102,7 @@ class ArchiveController extends AbstractController
      * @param EntityManagerInterface $entityManager
      * @return Response
      */
+    #[IsGranted('ROLE_ADMIN')]
     #[Route('/{id}', name: 'archive_delete', methods: ['POST'])]
     public function delete(Request $request, Archive $archive, EntityManagerInterface $entityManager): Response
     {

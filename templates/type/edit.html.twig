@@ -3,11 +3,13 @@
 {% block title %}Edit Type{% endblock %}
 
 {% block body %}
+    <div class="divperso mx-auto">
     <h1>Edit Type</h1>
 
-    {{ include('type/_form.html.twig', {'button_label': 'Update'}) }}
+        {{ include('type/_form.html.twig', {'button_label': 'Mettre à jour'}) }}
 
-    <a href="{{ path('type_index') }}">back to list</a>
+        <a href="{{ path('type_index') }}" class="btn btn-primary mt-2">Retour</a>
 
     {{ include('type/_delete_form.html.twig') }}
+    </div>
 {% endblock %}

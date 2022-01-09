@@ -3,6 +3,7 @@
 {% block title %}Type{% endblock %}
 
 {% block body %}
+<div class="mx-auto w-75 align-items-center article">
     <h1>Type</h1>
 
     <table class="table">
@@ -18,9 +19,10 @@
         </tbody>
     </table>
 
-    <a href="{{ path('type_index') }}">back to list</a>
+    <a href="{{ path('type_index') }}" class="btn btn-primary mt-2">Retour</a>
 
-    <a href="{{ path('type_edit', {'id': type.id}) }}">edit</a>
+    <a href="{{ path('type_edit', {'id': type.id}) }}" class="btn btn-warning mt-2">Modifié</a>
 
     {{ include('type/_delete_form.html.twig') }}
+</div>
 {% endblock %}

@@ -37,8 +37,9 @@
     }
 
     table td, table th{
-        border:1px solid black;
+        border:1px solid black !important;
     }
+
      table th{
          font-weight: bold;
      }
