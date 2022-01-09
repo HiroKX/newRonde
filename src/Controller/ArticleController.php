@@ -4,8 +4,9 @@ namespace App\Controller;
 
 use App\Entity\Article;
 use App\Form\ArticleType;
-use App\Service\FileUpload;
+use App\Service\FileUploadService;
 use App\Repository\ArticleRepository;
+use App\Service\FileUploadServiceInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -23,6 +24,7 @@ class ArticleController extends AbstractController
             'articles' => $articleRepository->findAll(),
         ]);
     }
+
     #[Route('/', name: 'article_reg', methods: ['GET'])]
     public function reglement(ArticleRepository $articleRepository): Response
     {
@@ -49,7 +51,7 @@ class ArticleController extends AbstractController
 
     #[IsGranted('ROLE_ADMIN')]
     #[Route('/new', name: 'article_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager, FileUpload $uploader): Response
+    public function new(Request $request, EntityManagerInterface $entityManager, FileUploadServiceInterface $uploaderService): Response
     {
         $article = new Article();
         $form = $this->createForm(ArticleType::class, $article);
@@ -59,13 +61,11 @@ class ArticleController extends AbstractController
             $attachs = $form->get('attachments')->getData();
             foreach ($attachs as $attach) {
                 if ($attach) {
-                    $attachement = $uploader->upload($attach);
-                    $attachement->setArticle($article);
-                    $entityManager->persist($attachement);
+                    $attachment = $uploaderService->upload($attach);
+                    $attachment->setArticle($article);
+                    $entityManager->persist($attachment);
                 }
             }
-            // this condition is needed because the 'brochure' field is not required
-            // so the PDF file must be processed only when a file is uploaded
 
             $entityManager->persist($article);
             $entityManager->flush();

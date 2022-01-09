@@ -20,7 +20,7 @@ services:
             - '../src/Entity/'
             - '../src/Kernel.php'
             - '../src/Tests/'
-    App\Service\FileUpload:
+    App\Service\FileUploadService:
         arguments:
             $targetDirectory: '%upload%'
 

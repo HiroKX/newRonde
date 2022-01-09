@@ -9,33 +9,34 @@
     {{ include('article/_form.html.twig') }}
 
     <a href="{{ path('article_index') }}">back to list</a>
-    {% block javascripts %}
-        {{ encore_entry_script_tags('app') }}
-    {% endblock %}
-    <script>
-        function pollDOM () {
-            if (typeof CKEDITOR != "undefined") {
-                let a = document.getElementById('article_contenu');
-                let editor = CKEDITOR.replace('article[contenu]');
-                {% if content is defined %}
-                console.log('{{ content }}');
-                editor.setData(stripHtml('{{ content }}'));
-                {% endif %}
-                editor.on('change', function (evt) {
-                    a.value = evt.editor.getData();
-                })
-
-                function stripHtml(html) {
-                    let tmp = document.createElement("DIV");
-                    tmp.innerHTML = html;
-                    return tmp.textContent || tmp.innerText || "";
-                }
-            } else {
-                setTimeout(pollDOM, 10); // try again in 300 milliseconds
-            }
-        }
-
-        pollDOM();
-    </script>
 </div>
 {% endblock %}
+
+ {% block javascripts %}
+     {{ parent() }}
+     <script>
+         function pollDOM () {
+             if (typeof CKEDITOR != "undefined") {
+                 let a = document.getElementById('article_contenu');
+                 let editor = CKEDITOR.replace('article[contenu]');
+                 {% if content is defined %}
+                 console.log('{{ content }}');
+                 editor.setData(stripHtml('{{ content }}'));
+                 {% endif %}
+                 editor.on('change', function (evt) {
+                     a.value = evt.editor.getData();
+                 })
+
+                 function stripHtml(html) {
+                     let tmp = document.createElement("DIV");
+                     tmp.innerHTML = html;
+                     return tmp.textContent || tmp.innerText || "";
+                 }
+             } else {
+                 setTimeout(pollDOM, 10); // try again in 300 milliseconds
+             }
+         }
+
+         pollDOM();
+     </script>
+ {% endblock %}
