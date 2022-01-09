@@ -6,36 +6,43 @@ use App\Entity\Attachments;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\String\Slugger\SluggerInterface;
-use Symfony\Contracts\Service\ServiceProviderInterface;
 
-/**
- * Class used to upload file and attachment
- */
-class FileUpload
+class FileUploadService implements FileUploadServiceInterface
 {
     private $targetDirectory;
     private $slugger;
 
+    /**
+     * @param $targetDirectory
+     * @param SluggerInterface $slugger
+     */
     public function __construct($targetDirectory, SluggerInterface $slugger)
     {
         $this->targetDirectory = $targetDirectory;
         $this->slugger = $slugger;
     }
 
-    public function upload(UploadedFile $file)
+    /**
+     * @param UploadedFile $file
+     * @return Attachments
+     */
+    public function upload(UploadedFile $file): Attachments
     {
         $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
         $safeFilename = $this->slugger->slug($originalFilename);
-        $fileName = $safeFilename.'-'.uniqid().'.'.$file->guessExtension();
+        $fileName = $safeFilename.'-'.uniqid('', true).'.'.$file->guessExtension();
+
         try {
             $file->move($this->getTargetDirectory(), $fileName);
+
             $attach = new Attachments();
             $attach->setNom($fileName);
             $attach->setTaille(filesize($this->getTargetDirectory().'/'.$fileName));
-            return $attach;
         } catch (FileException $e) {
             throw new \RuntimeException('Error during file upload '.$e->getMessage() . ':' . $e->getTraceAsString());
         }
+
+        return $attach;
     }
 
     public function getTargetDirectory()

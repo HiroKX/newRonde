@@ -20,7 +20,10 @@ services:
             - '../src/Entity/'
             - '../src/Kernel.php'
             - '../src/Tests/'
-    App\Service\FileUpload:
+    App\Command\UserAdminCommand:
+        arguments:
+            $name: 'app:user-admin'
+    App\Service\FileUploadService:
         arguments:
             $targetDirectory: '%upload%'
 
