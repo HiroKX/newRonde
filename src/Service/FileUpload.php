@@ -34,7 +34,7 @@ class FileUpload
             $attach->setTaille(filesize($this->getTargetDirectory().'/'.$fileName));
             return $attach;
         } catch (FileException $e) {
-            echo $e;
+            throw new \RuntimeException('Error during file upload '.$e->getMessage() . ':' . $e->getTraceAsString());
         }
     }
 
