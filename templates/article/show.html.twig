@@ -17,7 +17,7 @@
                 </ul>
             {% endif %}
             {%for image in article.images %}
-                <img src="/uploads/{{ image.nom }}"/>
+                <img src=" {{ asset('/uploads/' ~ image.nom) }}" alt="{{ image.nom }}"/>
             {% endfor %}
             <div class="mt-2">
                 <a href="{{ path('article_index') }}" class="btn btn-primary">Retour</a>

@@ -45,9 +45,6 @@ class ArticleType extends AbstractType
                 'attr'=>['accept' => "image/*"],
                 'mapped' => false,
             ])
-            ->add('isGallery',CheckboxType::class,[
-                'label'=>'Gallerie'
-            ])
             ->add('type')
             ->add('annee');
     }

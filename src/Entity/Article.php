@@ -38,9 +38,6 @@ class Article
     #[ORM\OneToMany(mappedBy: 'article', targetEntity: Attachments::class, orphanRemoval: true)]
     private $attachments;
 
-    #[ORM\Column(type: 'boolean')]
-    private $isGallery;
-
     #[ORM\OneToMany(mappedBy: 'article', targetEntity: Images::class)]
     private $images;
 
@@ -158,17 +155,6 @@ class Article
         return $this;
     }
 
-    public function getIsGallery(): ?bool
-    {
-        return $this->isGallery;
-    }
-
-    public function setIsGallery(bool $isGallery): self
-    {
-        $this->isGallery = $isGallery;
-
-        return $this;
-    }
 
     /**
      * @return Collection|Images[]
