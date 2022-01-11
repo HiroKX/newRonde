@@ -3,7 +3,6 @@
 namespace App\Service;
 
 use App\Entity\Attachment;
-//use App\Entity\Images;
 use Doctrine\ORM\EntityManagerInterface;
 use JetBrains\PhpStorm\Pure;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
@@ -65,7 +64,13 @@ class FileUploadService implements FileUploadServiceInterface
      */
     public function delete(Attachment $attachment): bool
     {
-        return unlink($this->getTargetDirectory() . $attachment->getFilename());
+        $file = $this->getTargetDirectory() . $attachment->getFilename();
+
+        if (!file_exists($file)) {
+            throw new FileException(sprintf('The %s file do not exist.', $attachment->getOriginalFilename()));
+        }
+
+        return unlink($file);
     }
 
     /**
