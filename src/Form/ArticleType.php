@@ -42,13 +42,13 @@ class ArticleType extends AbstractType
                 'by_reference' => false,
                 'row_attr' => ['class' => 'd-none'],
             ])
-            /*->add('images',FileType::class,[
+            ->add('images',FileType::class,[
                 'required' => false,
                 'multiple' => true,
                 'label' => 'Image(s)',
                 'attr'=>['accept' => "image/*"],
                 'mapped' => false,
-            ])*/
+            ])
             ->add('type', EntityType::class, [
                 'class' => Type::class,
                 'choice_label' => 'nom',

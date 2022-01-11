@@ -80,28 +80,19 @@ class ArticleController extends AbstractController
     /**
      * @param Request $request
      * @param EntityManagerInterface $entityManager
-     * @param FileUploadServiceInterface $uploaderService
      * @return Response
      */
     #[IsGranted('ROLE_ADMIN')]
     #[Route('/new', name: 'article_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager, FileUploadServiceInterface $uploaderService): Response
+    public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $article = new Article();
         $form = $this->createForm(ArticleType::class, $article);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $attachment = $this->uploadAttachment($form->get('attachments')->getData());
-            if ($attachment) {
-                $article->addAttachment($attachment);
-            }
-
-            /*$images = $form->get('images')->getData();
-            foreach ($images as $image) {
-                $attachment = $uploaderService->upload($image);
-                $article->addImage($attachment);
-            }*/
+            $this->uploadAttachment($form->get('attachments')->getData(), $article);
+            $this->uploadImageGallery($form->get('images')->getData(), $article);
 
             $entityManager->persist($article);
             $entityManager->flush();
@@ -131,29 +122,18 @@ class ArticleController extends AbstractController
      * @param Request $request
      * @param Article $article
      * @param EntityManagerInterface $entityManager
-     * @param FileUploadServiceInterface $uploaderService
      * @return Response
      */
     #[IsGranted('ROLE_ADMIN')]
     #[Route('/{id}/edit', name: 'article_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Article $article, EntityManagerInterface $entityManager, FileUploadServiceInterface $uploaderService): Response
+    public function edit(Request $request, Article $article, EntityManagerInterface $entityManager): Response
     {
         $form = $this->createForm(ArticleType::class, $article);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $attachment = $this->uploadAttachment($form->get('attachments')->getData());
-            if ($attachment) {
-                $article->addAttachment($attachment);
-            }
-
-            /*$images = $form->get('images')->getData();
-            foreach ($images as $image) {
-                if ($image) {
-                    $imageUpload = $uploaderService->upload($image);
-                    $article->addImage($imageUpload);
-                }
-            }*/
+            $this->uploadAttachment($form->get('attachments')->getData(), $article);
+            $this->uploadImageGallery($form->get('images')->getData(), $article);
 
             $entityManager->flush();
 
@@ -177,7 +157,6 @@ class ArticleController extends AbstractController
         return $this->file($pathAttachmentArticle . $attachment->getFilename());
     }
 
-
     /**
      * @param Request $request
      * @param Article $article
@@ -198,19 +177,35 @@ class ArticleController extends AbstractController
 
     /**
      * @param Collection $attachments
-     * @return Attachment|null
+     * @param Article $article
+     * @return void
      */
-    private function uploadAttachment(Collection $attachments): ?Attachment
+    private function uploadAttachment(Collection $attachments, Article $article): void
     {
         foreach ($attachments as $attachment) {
             /** @var UploadedFile $imageUploadedFile */
             $imageUploadedFile = $attachment->getFile();
 
             if ($imageUploadedFile) {
-                return $this->uploaderService->upload($attachment);
+                $attachmentObject = $this->uploaderService->upload($attachment);
+                $article->addAttachment($attachmentObject);
             }
         }
+    }
 
-        return null;
+    /**
+     * @param array $images
+     * @param Article $article
+     * @return void
+     */
+    private function uploadImageGallery(array $images, Article $article): void
+    {
+        foreach ($images as $image) {
+            $attachment = new Attachment();
+            $attachment->setFile($image);
+
+            $attachmentObject = $this->uploaderService->upload($attachment);
+            $article->addImage($attachmentObject);
+        }
     }
 }
