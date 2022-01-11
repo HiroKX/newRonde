@@ -4,6 +4,8 @@ twig:
 
     globals:
         pathArticleAttachment: '%upload%'
+        link_fb: '%fb%'
+        email: '%email.address%'
 
 when@test:
     twig:
