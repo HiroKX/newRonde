@@ -166,6 +166,12 @@ class ArticleController extends AbstractController
         return $this->file($pathAttachmentArticle . $attachment->getFilename());
     }
 
+    /**
+     * @param Article $article
+     * @param Attachment $attachment
+     * @param Request $request
+     * @return Response
+     */
     #[IsGranted('ROLE_ADMIN')]
     #[Route('/delete/attachment/{article}/{attachment}', name: 'article_delete_attachment')]
     public function deleteAttachment(Article $article, Attachment $attachment, Request $request): Response
@@ -191,6 +197,24 @@ class ArticleController extends AbstractController
     public function delete(Request $request, Article $article): Response
     {
         if ($this->isCsrfTokenValid('delete'.$article->getId(), $request->request->get('_token'))) {
+            $attachments = $article->getAttachments();
+            foreach ($attachments as $attachment) {
+                $this->uploaderService->delete($attachment);
+
+                $article->removeAttachment($attachment);
+                $this->entityManager->remove($attachment);
+                $this->entityManager->flush();
+            }
+
+            $images = $article->getImages();
+            foreach ($images as $image) {
+                $this->uploaderService->delete($image);
+
+                $article->removeImage($image);
+                $this->entityManager->remove($image);
+                $this->entityManager->flush();
+            }
+
             $this->entityManager->remove($article);
             $this->entityManager->flush();
         }
