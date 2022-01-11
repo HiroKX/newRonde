@@ -7,35 +7,38 @@ namespace DoctrineMigrations;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
 
-/**
- * Auto-generated Migration: Please modify to your needs!
- */
-final class Version20220110143731 extends AbstractMigration
+final class Version20220111093553 extends AbstractMigration
 {
     public function getDescription(): string
     {
-        return '';
+        return 'Initial migration';
     }
 
     public function up(Schema $schema): void
     {
-        // this up() migration is auto-generated, please modify it to your needs
+        $this->addSql('CREATE TABLE admin (id INT AUTO_INCREMENT NOT NULL, username VARCHAR(180) NOT NULL, roles JSON NOT NULL, password VARCHAR(255) NOT NULL, UNIQUE INDEX UNIQ_880E0D76F85E0677 (username), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE article_file_attachment (article_id INT NOT NULL, attachments_id INT NOT NULL, INDEX IDX_237232937294869C (article_id), INDEX IDX_237232939D1F836B (attachments_id), PRIMARY KEY(article_id, attachments_id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE article_image_attachment (article_id INT NOT NULL, attachments_id INT NOT NULL, INDEX IDX_2D5B5FE7294869C (article_id), INDEX IDX_2D5B5FE9D1F836B (attachments_id), PRIMARY KEY(article_id, attachments_id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE attachments (id INT AUTO_INCREMENT NOT NULL, original_filename VARCHAR(255) NOT NULL, filename VARCHAR(255) NOT NULL, taille INT NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE type (id INT AUTO_INCREMENT NOT NULL, nom VARCHAR(255) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('ALTER TABLE article_file_attachment ADD CONSTRAINT FK_237232937294869C FOREIGN KEY (article_id) REFERENCES article (id)');
         $this->addSql('ALTER TABLE article_file_attachment ADD CONSTRAINT FK_237232939D1F836B FOREIGN KEY (attachments_id) REFERENCES attachments (id)');
         $this->addSql('ALTER TABLE article_image_attachment ADD CONSTRAINT FK_2D5B5FE7294869C FOREIGN KEY (article_id) REFERENCES article (id)');
         $this->addSql('ALTER TABLE article_image_attachment ADD CONSTRAINT FK_2D5B5FE9D1F836B FOREIGN KEY (attachments_id) REFERENCES attachments (id)');
-        $this->addSql('DROP TABLE article_attachment');
+        $this->addSql('ALTER TABLE article ADD CONSTRAINT FK_23A0E66C54C8C93 FOREIGN KEY (type_id) REFERENCES type (id)');
+        $this->addSql('ALTER TABLE article ADD CONSTRAINT FK_23A0E66543EC5F0 FOREIGN KEY (annee_id) REFERENCES archive (id)');
     }
 
     public function down(Schema $schema): void
     {
-        // this down() migration is auto-generated, please modify it to your needs
-        $this->addSql('CREATE TABLE article_attachment (article_id INT NOT NULL, attachments_id INT NOT NULL, INDEX IDX_4586083A7294869C (article_id), INDEX IDX_4586083A9D1F836B (attachments_id), PRIMARY KEY(article_id, attachments_id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB COMMENT = \'\' ');
-        $this->addSql('ALTER TABLE article_attachment ADD CONSTRAINT FK_4586083A7294869C FOREIGN KEY (article_id) REFERENCES article (id)');
-        $this->addSql('ALTER TABLE article_attachment ADD CONSTRAINT FK_4586083A9D1F836B FOREIGN KEY (attachments_id) REFERENCES attachments (id)');
+        $this->addSql('ALTER TABLE article_file_attachment DROP FOREIGN KEY FK_237232939D1F836B');
+        $this->addSql('ALTER TABLE article_image_attachment DROP FOREIGN KEY FK_2D5B5FE9D1F836B');
+        $this->addSql('ALTER TABLE article DROP FOREIGN KEY FK_23A0E66C54C8C93');
+        $this->addSql('DROP TABLE admin');
         $this->addSql('DROP TABLE article_file_attachment');
         $this->addSql('DROP TABLE article_image_attachment');
+        $this->addSql('DROP TABLE attachments');
+        $this->addSql('DROP TABLE type');
+        $this->addSql('ALTER TABLE article DROP FOREIGN KEY FK_23A0E66543EC5F0');
     }
 }
