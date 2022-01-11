@@ -86,22 +86,16 @@ class ArticleController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $attachs = $form->get('attachments')->getData();
             foreach ($attachs as $attach) {
-                if ($attach) {
-                    $attachment = $uploaderService->upload($attach);
-                    $attachment->setArticle($article);
-                    $entityManager->persist($attachment);
-                }
+                $attachment = $uploaderService->upload($attach);
+                $article->addAttachment($attachment);
             }
-            /**
+
             $images = $form->get('images')->getData();
             foreach ($images as $image) {
-                if ($image) {
-                    $imageUpload = $uploaderService->upload($image);
-                    $imageUpload->setArticle($article);
-                    $entityManager->persist($imageUpload);
-                }
+                $attachment = $uploaderService->upload($image);
+                $article->addImage($attachment);
             }
-            */
+
             $entityManager->persist($article);
             $entityManager->flush();
 
@@ -178,7 +172,7 @@ class ArticleController extends AbstractController
     {
         return $this->file($pathAttachmentArticle . $attachment->getFilename());
     }
-    
+
 
     /**
      * @param Request $request

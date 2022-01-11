@@ -202,12 +202,12 @@ class Article
     }
 
     /**
-     * @param Attachments $image
+     * @param Attachments $attachments
      * @return $this
      */
-    public function removeAttachment(Attachments $image): self
+    public function removeAttachment(Attachments $attachments): self
     {
-        $this->images->removeElement($image);
+        $this->attachments->removeElement($attachments);
 
         return $this;
     }
@@ -217,17 +217,17 @@ class Article
      */
     public function getImages(): Collection
     {
-        return $this->attachments;
+        return $this->images;
     }
 
     /**
-     * @param Attachments $image
+     * @param Attachments $attachments
      * @return $this
      */
-    public function addImage(Attachments $image): self
+    public function addImage(Attachments $attachments): self
     {
-        if (!$this->images->contains($image)) {
-            $this->images[] = $image;
+        if (!$this->images->contains($attachments)) {
+            $this->images[] = $attachments;
         }
 
         return $this;

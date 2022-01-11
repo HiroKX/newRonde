@@ -4,6 +4,7 @@ namespace App\Service;
 
 use App\Entity\Attachments;
 //use App\Entity\Images;
+use Doctrine\ORM\EntityManagerInterface;
 use JetBrains\PhpStorm\Pure;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -11,22 +12,24 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 
 class FileUploadService implements FileUploadServiceInterface
 {
-    private $targetDirectory;
-    private $slugger;
+    private string $targetDirectory;
+    private SluggerInterface $slugger;
+    private EntityManagerInterface $entityManager;
 
     /**
-     * @param $targetDirectory
+     * @param string $targetDirectory
      * @param SluggerInterface $slugger
+     * @param EntityManagerInterface $entityManager
      */
-    public function __construct($targetDirectory, SluggerInterface $slugger)
+    public function __construct(string $targetDirectory, SluggerInterface $slugger, EntityManagerInterface $entityManager)
     {
         $this->targetDirectory = $targetDirectory;
         $this->slugger = $slugger;
+        $this->entityManager = $entityManager;
     }
 
     /**
-     * @param UploadedFile $file
-     * @return Attachments
+     * @inheritDoc
      */
     public function upload(UploadedFile $file): Attachments
     {
@@ -36,25 +39,37 @@ class FileUploadService implements FileUploadServiceInterface
 
         try {
             $file->move($this->getTargetDirectory(), $fileName);
-            $attach = new Attachments();
-            $attach->setOriginalFilename($originalFilename);
-            $attach->setFilename($fileName);
-            $attach->setTaille($this->getSize($fileName));
+
+            $attachments = new Attachments();
+            $attachments->setOriginalFilename($originalFilename);
+            $attachments->setFilename($fileName);
+            $attachments->setTaille($this->getSize($fileName));
+
+            $this->entityManager->persist($attachments);
+            $this->entityManager->flush();
         } catch (FileException $e) {
             throw new \RuntimeException('Error during file upload '.$e->getMessage() . ':' . $e->getTraceAsString());
         }
 
-        return $attach;
+        return $attachments;
     }
 
-    public function delete(Attachments $attach){
+    /**
+     * @inheritDoc
+     */
+    public function delete(Attachments $attach): bool
+    {
             return unlink($this->getTargetDirectory().$attach->getFilename());
     }
 
-    public function getTargetDirectory()
+    /**
+     * @return mixed
+     */
+    private function getTargetDirectory(): string
     {
         return $this->targetDirectory;
     }
+
     /**
      * @param string $filename
      * @return int

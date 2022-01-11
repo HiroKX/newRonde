@@ -13,5 +13,10 @@ interface FileUploadServiceInterface
      * @return Attachments
      */
     public function upload(UploadedFile $file): Attachments;
-    //public function uploadImage(UploadedFile $image): Images;
+
+    /**
+     * @param Attachments $attach
+     * @return bool
+     */
+    public function delete(Attachments $attach): bool;
 }
