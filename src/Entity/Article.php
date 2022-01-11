@@ -47,7 +47,7 @@ class Article
     #[JoinTable(name: "article_image_attachment")]
     #[JoinColumn(name: "article_id", referencedColumnName: "id")]
     #[InverseJoinColumn(name: "attachments_id", referencedColumnName: "id")]
-    private ?Collection $images = null;
+    private Collection $images;
 
     #[ORM\Column(type: 'datetime')]
     private \DateTimeInterface $dateAdd;
@@ -56,6 +56,7 @@ class Article
     {
         $this->dateAdd = new \DateTime();
         $this->attachments = new ArrayCollection();
+        $this->images = new ArrayCollection();
     }
 
     /**
