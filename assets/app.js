@@ -29,7 +29,6 @@ function updateAttachments() {
 function registerAttachmentsEvents() {
     // Ajout PJ
     $('.add-attachment').one('click', function (e) {
-
         let $collectionHolder = $('.collection-attachments').first();
 
         // CHECK limite MAX nombre de fichiers atteinte
@@ -39,6 +38,7 @@ function registerAttachmentsEvents() {
         }*/
 
         let prototype = $collectionHolder.data('prototype');
+        console.log(prototype);
         let index = $collectionHolder.data('index');
 
         let newForm = prototype.replace(/__name__/g, index);
