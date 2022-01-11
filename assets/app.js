@@ -29,7 +29,6 @@ function updateAttachments() {
 function registerAttachmentsEvents() {
     // Ajout PJ
     $('.add-attachment').one('click', function (e) {
-
         let $collectionHolder = $('.collection-attachments').first();
 
         // CHECK limite MAX nombre de fichiers atteinte
