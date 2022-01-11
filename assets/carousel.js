@@ -1,16 +1,9 @@
-
-import "slick-carousel";
+import './styles/carousel.scss';
+import 'slick-carousel/slick/slick';
 
 const $ = require('jquery');
-$(document).ready(function(){
-    $('.image-carousel').slick();
-});
+global.$ = global.jQuery = $;
 
-$('.img-carousel').click(function(e){
-    $('.big-carousel').removeClass('d-none');
-    $('.big-carousel').slick();
-});
-
-
+$('.image-carousel').slick();
 
 console.debug('carousel.js loaded');
