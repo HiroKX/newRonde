@@ -6,6 +6,10 @@ use App\Repository\ArticleRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\InverseJoinColumn;
+use Doctrine\ORM\Mapping\JoinColumn;
+use Doctrine\ORM\Mapping\JoinTable;
+use Doctrine\ORM\Mapping\ManyToMany;
 
 #[ORM\Entity(repositoryClass: ArticleRepository::class)]
 class Article
@@ -32,20 +36,26 @@ class Article
     #[ORM\JoinColumn(nullable: false)]
     private $annee;
 
+    #[ManyToMany(targetEntity: Attachments::class,cascade: ["remove"])]
+    #[JoinTable(name: "article_file_attachment")]
+    #[JoinColumn(name: "article_id", referencedColumnName: "id")]
+    #[InverseJoinColumn(name: "attachments_id", referencedColumnName: "id")]
+    private $attachments;
+
+    #[ManyToMany(targetEntity: Attachments::class,cascade: ["remove"])]
+    #[JoinTable(name: "article_image_attachment")]
+    #[JoinColumn(name: "article_id", referencedColumnName: "id")]
+    #[InverseJoinColumn(name: "attachments_id", referencedColumnName: "id")]
+    private $images;
+
+
     #[ORM\Column(type: 'datetime')]
     private $dateAdd;
 
-    #[ORM\OneToMany(mappedBy: 'article', targetEntity: Attachments::class, orphanRemoval: true)]
-    private $attachments;
-
-    #[ORM\OneToMany(mappedBy: 'article', targetEntity: Images::class)]
-    private $images;
-
     public function __construct()
     {
-        $this->attachments = new ArrayCollection();
         $this->dateAdd = new \DateTime();
-        $this->images = new ArrayCollection();
+        $this->attachments = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -126,7 +136,7 @@ class Article
     }
 
     /**
-     * @return Collection|Attachments[]
+     * @return Collection|self[]
      */
     public function getAttachments(): Collection
     {
@@ -137,52 +147,42 @@ class Article
     {
         if (!$this->attachments->contains($attachment)) {
             $this->attachments[] = $attachment;
-            $attachment->setArticle($this);
         }
 
         return $this;
     }
 
-    public function removeAttachment(Attachments $attachment): self
+    public function removeAttachment(Attachments $image): self
     {
-        if ($this->attachments->removeElement($attachment)) {
-            // set the owning side to null (unless already changed)
-            if ($attachment->getArticle() === $this) {
-                $attachment->setArticle(null);
-            }
-        }
+        $this->images->removeElement($image);
 
         return $this;
     }
-
 
     /**
-     * @return Collection|Images[]
+     * @return Collection|self[]
      */
     public function getImages(): Collection
     {
-        return $this->images;
+        return $this->attachments;
     }
 
-    public function addImage(Images $image): self
+    public function addImage(Attachments $image): self
     {
         if (!$this->images->contains($image)) {
             $this->images[] = $image;
-            $image->setArticle($this);
         }
 
         return $this;
     }
 
-    public function removeImage(Images $image): self
+    public function removeImage(Attachments $images): self
     {
-        if ($this->images->removeElement($image)) {
-            // set the owning side to null (unless already changed)
-            if ($image->getArticle() === $this) {
-                $image->setArticle(null);
-            }
-        }
+        $this->images->removeElement($images);
 
         return $this;
     }
+
+
+
 }

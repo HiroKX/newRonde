@@ -3,11 +3,16 @@
 namespace App\Entity;
 
 use App\Repository\AttachmentsRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\InverseJoinColumn;
+use Doctrine\ORM\Mapping\JoinColumn;
+use Doctrine\ORM\Mapping\JoinTable;
+use Doctrine\ORM\Mapping\ManyToMany;
 
 #[ORM\Entity(repositoryClass: AttachmentsRepository::class)]
-class Attachments
-{
+class Attachments{
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
@@ -22,9 +27,9 @@ class Attachments
     #[ORM\Column(type: 'integer')]
     private $taille;
 
-    #[ORM\ManyToOne(targetEntity: Article::class, inversedBy: 'attachments')]
-    #[ORM\JoinColumn(nullable: false)]
-    private $article;
+    public function __construct()
+    {
+    }
 
     /**
      * @return int|null
@@ -109,4 +114,5 @@ class Attachments
 
         return $this;
     }
+
 }

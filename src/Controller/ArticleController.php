@@ -4,7 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Article;
 use App\Entity\Attachments;
-use App\Entity\Images;
+//use App\Entity\Images;
 use App\Form\ArticleType;
 
 use App\Service\FileUploadService;
@@ -92,7 +92,16 @@ class ArticleController extends AbstractController
                     $entityManager->persist($attachment);
                 }
             }
-
+            /**
+            $images = $form->get('images')->getData();
+            foreach ($images as $image) {
+                if ($image) {
+                    $imageUpload = $uploaderService->upload($image);
+                    $imageUpload->setArticle($article);
+                    $entityManager->persist($imageUpload);
+                }
+            }
+            */
             $entityManager->persist($article);
             $entityManager->flush();
 
@@ -136,17 +145,15 @@ class ArticleController extends AbstractController
             foreach ($attachs as $attach) {
                 if ($attach) {
                     $attachment = $uploaderService->upload($attach);
-                    $attachment->setArticle($article);
-                    $entityManager->persist($attachment);
+                    $article->addAttachment($attachment);
                 }
             }
 
             $images = $form->get('images')->getData();
             foreach ($images as $image) {
                 if ($image) {
-                    $imageUpload = $uploaderService->uploadImage($image);
-                    $imageUpload->setArticle($article);
-                    $entityManager->persist($imageUpload);
+                    $imageUpload = $uploaderService->upload($image);
+                    $article->addImage($imageUpload);
                 }
             }
 

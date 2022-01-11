@@ -3,7 +3,7 @@
 namespace App\Service;
 
 use App\Entity\Attachments;
-use App\Entity\Images;
+//use App\Entity\Images;
 use JetBrains\PhpStorm\Pure;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -47,29 +47,14 @@ class FileUploadService implements FileUploadServiceInterface
         return $attach;
     }
 
+    public function delete(Attachments $attach){
+            return unlink($this->getTargetDirectory().$attach->getFilename());
+    }
+
     public function getTargetDirectory()
     {
         return $this->targetDirectory;
     }
-
-    public function uploadImage(UploadedFile $file): Images
-    {
-        $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
-        $safeFilename = $this->slugger->slug($originalFilename);
-        $fileName = $safeFilename.'-'.uniqid('', true).'.'.$file->guessExtension();
-
-        try {
-            $file->move($this->getTargetDirectory(), $fileName);
-            $img = new Images();
-            $img->setOriginalFilename($originalFilename);
-            $img->setNom($fileName);
-            $img->setTaille($this->getSize($fileName));
-        } catch (FileException $e) {
-            throw new \RuntimeException('Error during file upload '.$e->getMessage() . ':' . $e->getTraceAsString());
-        }
-        return $img;
-    }
-
     /**
      * @param string $filename
      * @return int
