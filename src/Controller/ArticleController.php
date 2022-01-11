@@ -20,13 +20,16 @@ use Symfony\Component\Routing\Annotation\Route;
 class ArticleController extends AbstractController
 {
     private FileUploadServiceInterface $uploaderService;
+    private EntityManagerInterface $entityManager;
 
     /**
      * @param FileUploadServiceInterface $uploaderService
+     * @param EntityManagerInterface $entityManager
      */
-    public function __construct(FileUploadServiceInterface $uploaderService)
+    public function __construct(FileUploadServiceInterface $uploaderService, EntityManagerInterface $entityManager)
     {
         $this->uploaderService = $uploaderService;
+        $this->entityManager = $entityManager;
     }
 
     /**
@@ -79,12 +82,11 @@ class ArticleController extends AbstractController
 
     /**
      * @param Request $request
-     * @param EntityManagerInterface $entityManager
      * @return Response
      */
     #[IsGranted('ROLE_ADMIN')]
     #[Route('/new', name: 'article_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    public function new(Request $request): Response
     {
         $article = new Article();
         $form = $this->createForm(ArticleType::class, $article);
@@ -94,8 +96,8 @@ class ArticleController extends AbstractController
             $this->uploadAttachment($form->get('attachments')->getData(), $article);
             $this->uploadImageGallery($form->get('images')->getData(), $article);
 
-            $entityManager->persist($article);
-            $entityManager->flush();
+            $this->entityManager->persist($article);
+            $this->entityManager->flush();
 
             return $this->redirectToRoute('article_index', [], Response::HTTP_SEE_OTHER);
         }
@@ -121,12 +123,11 @@ class ArticleController extends AbstractController
     /**
      * @param Request $request
      * @param Article $article
-     * @param EntityManagerInterface $entityManager
      * @return Response
      */
     #[IsGranted('ROLE_ADMIN')]
     #[Route('/{id}/edit', name: 'article_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Article $article, EntityManagerInterface $entityManager): Response
+    public function edit(Request $request, Article $article): Response
     {
         $form = $this->createForm(ArticleType::class, $article);
         $form->handleRequest($request);
@@ -135,7 +136,7 @@ class ArticleController extends AbstractController
             $this->uploadAttachment($form->get('attachments')->getData(), $article);
             $this->uploadImageGallery($form->get('images')->getData(), $article);
 
-            $entityManager->flush();
+            $this->entityManager->flush();
 
             return $this->redirectToRoute('article_index', [], Response::HTTP_SEE_OTHER);
         }
@@ -157,19 +158,31 @@ class ArticleController extends AbstractController
         return $this->file($pathAttachmentArticle . $attachment->getFilename());
     }
 
+    #[IsGranted('ROLE_ADMIN')]
+    #[Route('/delete/attachment/{article}/{attachment}', name: 'article_delete_attachment')]
+    public function deleteAttachment(Article $article, Attachment $attachment, Request $request): Response
+    {
+        $article->removeImage($attachment);
+        $this->entityManager->remove($attachment);
+        $this->entityManager->flush();
+
+        $this->uploaderService->delete($attachment);
+
+        return $this->redirect($request->headers->get('referer'));
+    }
+
     /**
      * @param Request $request
      * @param Article $article
-     * @param EntityManagerInterface $entityManager
      * @return Response
      */
     #[IsGranted('ROLE_ADMIN')]
     #[Route('/{id}', name: 'article_delete', methods: ['POST'])]
-    public function delete(Request $request, Article $article, EntityManagerInterface $entityManager): Response
+    public function delete(Request $request, Article $article): Response
     {
         if ($this->isCsrfTokenValid('delete'.$article->getId(), $request->request->get('_token'))) {
-            $entityManager->remove($article);
-            $entityManager->flush();
+            $this->entityManager->remove($article);
+            $this->entityManager->flush();
         }
 
         return $this->redirectToRoute('article_index', [], Response::HTTP_SEE_OTHER);

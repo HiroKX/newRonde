@@ -37,13 +37,13 @@ class Article
     #[ORM\JoinColumn(nullable: false)]
     private Archive $annee;
 
-    #[ManyToMany(targetEntity: Attachment::class,cascade: ["remove"])]
+    #[ManyToMany(targetEntity: Attachment::class, cascade: ["remove"], orphanRemoval: true)]
     #[JoinTable(name: "article_file_attachment")]
     #[JoinColumn(name: "article_id", referencedColumnName: "id")]
     #[InverseJoinColumn(name: "attachments_id", referencedColumnName: "id")]
     private Collection $attachments;
 
-    #[ManyToMany(targetEntity: Attachment::class,cascade: ["remove"])]
+    #[ManyToMany(targetEntity: Attachment::class, cascade: ["remove"], orphanRemoval: true)]
     #[JoinTable(name: "article_image_attachment")]
     #[JoinColumn(name: "article_id", referencedColumnName: "id")]
     #[InverseJoinColumn(name: "attachments_id", referencedColumnName: "id")]

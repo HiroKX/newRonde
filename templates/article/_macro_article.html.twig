@@ -41,3 +41,15 @@
         {% endfor %}
     </div>
 {% endmacro %}
+
+{% macro attachementImageGallery(form) %}
+    {% set imagesCollection = form.vars.data.images %}
+
+    {{ form_row(form.images) }}
+    <div class="collection-gallery">
+        {% for image in imagesCollection %}
+            <img src="{{ asset(pathArticleAttachment ~ image.filename) }}" alt="{{ image.originalFilename }}" />
+            <a href="{{ path('article_delete_attachment', {'article': form.vars.data.id, 'attachment': image.id}) }}">Supprimer l'image</a>
+        {% endfor %}
+    </div>
+{% endmacro %}

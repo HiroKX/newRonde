@@ -14,8 +14,8 @@ interface FileUploadServiceInterface
     public function upload(Attachment $attachment): Attachment;
 
     /**
-     * @param Attachment $attach
+     * @param Attachment $attachment
      * @return bool
      */
-    public function delete(Attachment $attach): bool;
+    public function delete(Attachment $attachment): bool;
 }

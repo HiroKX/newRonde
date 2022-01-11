@@ -63,9 +63,9 @@ class FileUploadService implements FileUploadServiceInterface
     /**
      * @inheritDoc
      */
-    public function delete(Attachment $attach): bool
+    public function delete(Attachment $attachment): bool
     {
-            return unlink($this->getTargetDirectory().$attach->getFilename());
+        return unlink($this->getTargetDirectory() . $attachment->getFilename());
     }
 
     /**
