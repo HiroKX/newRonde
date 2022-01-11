@@ -23,12 +23,7 @@ services:
             - '../src/Entity/'
             - '../src/Kernel.php'
             - '../src/Tests/'
-    App\Command\UserAdminCommand:
-        arguments:
-            $name: 'app:user-admin'
+
     App\Service\FileUploadService:
         arguments:
             $targetDirectory: '%upload%'
-
-    # add more service definitions when explicit configuration is needed
-    # please note that last definitions always *replace* previous ones

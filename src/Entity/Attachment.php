@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\AttachmentRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 #[ORM\Entity(repositoryClass: AttachmentRepository::class)]
 class Attachment{
@@ -20,6 +21,8 @@ class Attachment{
 
     #[ORM\Column(type: 'integer')]
     private int $taille;
+
+    private ?UploadedFile $file = null;
 
     /**
      * @return int|null
@@ -82,6 +85,25 @@ class Attachment{
     public function setTaille(int $taille): self
     {
         $this->taille = $taille;
+
+        return $this;
+    }
+
+    /**
+     * @return UploadedFile|null
+     */
+    public function getFile(): ?UploadedFile
+    {
+        return $this->file;
+    }
+
+    /**
+     * @param UploadedFile $file
+     * @return $this
+     */
+    public function setFile(UploadedFile $file): self
+    {
+        $this->file = $file;
 
         return $this;
     }

@@ -1,4 +1,11 @@
+{% import 'article/_macro_article.html.twig' as article_macro %}
+
 {{ form_start(form) }}
-    {{ form_widget(form) }}
+    {{ form_row(form.titre) }}
+    {{ form_row(form.utitre) }}
+    {{ form_row(form.contenu) }}
+    {{ article_macro.attachmentForm(form) }}
+    {{ form_row(form.type) }}
+    {{ form_row(form.annee) }}
      <button type="submit" class="btn btn-primary">Enregistrer</button>
 {{ form_end(form) }}

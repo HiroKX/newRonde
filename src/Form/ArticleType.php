@@ -7,7 +7,7 @@ use App\Entity\Article;
 use App\Entity\Type;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -35,19 +35,20 @@ class ArticleType extends AbstractType
                 ],
                 'required' => false,
             ])
-            ->add('attachments', FileType::class, [
-                'required' => false,
-                'multiple' => true,
-                'label' => 'Fichier(s)',
-                'mapped' => false,
+            ->add('attachments', CollectionType::class, [
+                'entry_type' => AttachmentType::class,
+                'allow_add' => true,
+                'allow_delete' => true,
+                'by_reference' => false,
+                'row_attr' => ['class' => 'd-none'],
             ])
-            ->add('images',FileType::class,[
+            /*->add('images',FileType::class,[
                 'required' => false,
                 'multiple' => true,
                 'label' => 'Image(s)',
                 'attr'=>['accept' => "image/*"],
                 'mapped' => false,
-            ])
+            ])*/
             ->add('type', EntityType::class, [
                 'class' => Type::class,
                 'choice_label' => 'nom',

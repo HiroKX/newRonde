@@ -1,0 +1,43 @@
+{% macro displayAttachment(articleAttachmentForm, newField) %}
+    {% set articleAttachment = articleAttachmentForm.vars.value %}
+    {% if articleAttachment is not empty %}
+        {% set filePath = pathArticleAttachment %}
+        {% set downloadUrl = path('article_download_attachment', {'id': articleAttachment.id}) %}
+    {% else %}
+        {% set filePath = '' %}
+        {% set downloadUrl = '' %}
+    {% endif %}
+
+    <div class="row mb-3 attachment" style="clear:both" data-download-url="{{ downloadUrl }}" data-file-name="{{ filePath }}">
+        {{ form_errors(articleAttachmentForm) }}
+        <div class="col-auto d-flex align-items-center">
+            <button type="button" class="btn-close remove-attachment" aria-label="Close"></button>
+        </div>
+        <div class="col attachment-file">
+            {{ form_label(articleAttachmentForm.file) }}
+            {{ form_widget(articleAttachmentForm.file) }}
+        </div>
+        {% if newField %}
+            <div class="col-auto d-flex align-items-center">
+                <a class="btn btn-light" target="_blank" href="{{ downloadUrl }}">
+                    <i class="fas fa-file-download" aria-hidden="true" title="Télécharger"></i>
+                </a>
+            </div>
+        {% endif %}
+    </div>
+{% endmacro %}
+
+{% macro attachmentForm(form) %}
+    {% import 'article/_macro_article.html.twig' as article_macro %}
+
+    <button type="button" class="btn btn-outline-primary mb-3 add-attachment" data-collection-holder-class="attachments">
+        Ajouter une nouveau fichier
+    </button>
+    <div class="collection-attachments"
+         data-index="{{ form.attachments|length > 0 ? form.attachments|last.vars.name + 1 : 0 }}"
+         data-prototype="{{ article_macro.displayAttachment(form.attachments.vars.prototype, false)|e('html_attr') }}">
+        {% for attachment in form.attachments %}
+            {{ article_macro.displayAttachment(attachment, true) }}
+        {% endfor %}
+    </div>
+{% endmacro %}

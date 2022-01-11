@@ -2,7 +2,7 @@
 
 namespace App\Service;
 
-use App\Entity\Attachments;
+use App\Entity\Attachment;
 //use App\Entity\Images;
 use Doctrine\ORM\EntityManagerInterface;
 use JetBrains\PhpStorm\Pure;
@@ -31,8 +31,15 @@ class FileUploadService implements FileUploadServiceInterface
     /**
      * @inheritDoc
      */
-    public function upload(UploadedFile $file): Attachments
+    public function upload(Attachment $attachment): Attachment
     {
+        /** @var UploadedFile $file */
+        $file = $attachment->getFile();
+
+        if (!$file) {
+            throw new \RuntimeException('Error image file.');
+        }
+
         $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
         $safeFilename = $this->slugger->slug($originalFilename);
         $fileName = $safeFilename.'-'.uniqid('', true).'.'.$file->guessExtension();
@@ -40,24 +47,23 @@ class FileUploadService implements FileUploadServiceInterface
         try {
             $file->move($this->getTargetDirectory(), $fileName);
 
-            $attachments = new Attachments();
-            $attachments->setOriginalFilename($originalFilename);
-            $attachments->setFilename($fileName);
-            $attachments->setTaille($this->getSize($fileName));
+            $attachment->setOriginalFilename($originalFilename);
+            $attachment->setFilename($fileName);
+            $attachment->setTaille($this->getSize($fileName));
 
-            $this->entityManager->persist($attachments);
+            $this->entityManager->persist($attachment);
             $this->entityManager->flush();
         } catch (FileException $e) {
             throw new \RuntimeException('Error during file upload '.$e->getMessage() . ':' . $e->getTraceAsString());
         }
 
-        return $attachments;
+        return $attachment;
     }
 
     /**
      * @inheritDoc
      */
-    public function delete(Attachments $attach): bool
+    public function delete(Attachment $attach): bool
     {
             return unlink($this->getTargetDirectory().$attach->getFilename());
     }
