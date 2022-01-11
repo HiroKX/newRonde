@@ -53,3 +53,17 @@
         {% endfor %}
     </div>
 {% endmacro %}
+
+{% macro carousel(images) %}
+    <div class="swiper">
+        <div class="swiper-wrapper">
+            {% for image in images %}
+                <img class="swiper-slide" src=" {{ asset(pathArticleAttachment ~ image.filename) }}" alt="{{ image.originalFilename }}"/>
+            {% endfor %}
+        </div>
+        <div class="swiper-pagination"></div>
+        <div class="swiper-button-prev"></div>
+        <div class="swiper-button-next"></div>
+        <div class="swiper-scrollbar"></div>
+    </div>
+{% endmacro %}

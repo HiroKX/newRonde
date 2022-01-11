@@ -2,23 +2,26 @@
 
 {% block title %}Article{% endblock %}
 
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('carousel') }}
+{% endblock %}
+
+{% import 'article/_macro_article.html.twig' as article_macro %}
+
 {% block body %}
         <div class="mx-auto w-75 align-items-center article">
-            {% if (article is defined) %}
-                <h3>{{ article.titre }}</h3>
-                <h5>{{ article.utitre }}</h5>
-                <div>{{ article.contenu | raw }}</div>
-                <ul class="">
-                    {% for attachment in article.attachments %}
-                        <li><a href="{{ path('article_download_attachment', {'id': attachment.id}) }}">
-                                Document a télécharger : {{ attachment.originalFilename }}
-                            </a></li>
-                    {% endfor %}
-                </ul>
-            {% endif %}
-            {% for image in article.images %}
-                <img src=" {{ asset(pathArticleAttachment ~ image.filename) }}" alt="{{ image.originalFilename }}"/>
-            {% endfor %}
+            <h3>{{ article.titre }}</h3>
+            <h5>{{ article.utitre }}</h5>
+            <div>{{ article.contenu | raw }}</div>
+            <ul class="">
+                {% for attachment in article.attachments %}
+                    <li><a href="{{ path('article_download_attachment', {'id': attachment.id}) }}">
+                            Document a télécharger : {{ attachment.originalFilename }}
+                        </a></li>
+                {% endfor %}
+            </ul>
+            {{ article_macro.carousel(article.images) }}
             <div class="mt-2">
                 <a href="{{ path('article_index') }}" class="btn btn-primary">Retour</a>
                 {% if app.user %}
@@ -26,6 +29,10 @@
                     {{ include('article/_delete_form.html.twig') }}
                 {% endif %}
             </div>
-
         </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('carousel') }}
 {% endblock %}
