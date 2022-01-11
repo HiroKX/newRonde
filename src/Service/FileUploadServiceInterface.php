@@ -3,7 +3,6 @@
 namespace App\Service;
 
 use App\Entity\Attachment;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 interface FileUploadServiceInterface
 {
