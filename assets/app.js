@@ -38,7 +38,6 @@ function registerAttachmentsEvents() {
         }*/
 
         let prototype = $collectionHolder.data('prototype');
-        console.log(prototype);
         let index = $collectionHolder.data('index');
 
         let newForm = prototype.replace(/__name__/g, index);
