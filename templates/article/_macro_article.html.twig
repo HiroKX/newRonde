@@ -44,7 +44,6 @@
 
 {% macro attachementImageGallery(form) %}
     {% set imagesCollection = form.vars.data.images %}
-
     {{ form_row(form.images) }}
     <div class="collection-gallery">
         {% for image in imagesCollection %}

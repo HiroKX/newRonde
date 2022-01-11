@@ -16,8 +16,15 @@
                     {% endfor %}
                 </ul>
             {% endif %}
+            <div class="image-carousel">
             {% for image in article.images %}
+            <div class="slick-slider">
                 <img src=" {{ asset(pathArticleAttachment ~ image.filename) }}" alt="{{ image.originalFilename }}"/>
+            </div>
+            {% endfor %}
+            </div>
+            {% for image in article.images %}
+                    <img class="img-carousel" src=" {{ asset(pathArticleAttachment ~ image.filename) }}" alt="{{ image.originalFilename }}"/>
             {% endfor %}
             <div class="mt-2">
                 <a href="{{ path('article_index') }}" class="btn btn-primary">Retour</a>
@@ -28,4 +35,17 @@
             </div>
 
         </div>
+    <div class="carousel-hidden">
+    <div class="big-carousel d-none">
+        {% for image in article.images %}
+            <div class="slick-slider">
+                <img src=" {{ asset(pathArticleAttachment ~ image.filename) }}" alt="{{ image.originalFilename }}"/>
+            </div>
+        {% endfor %}
+    </div>
+    </div>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('carousel') }}
 {% endblock %}
