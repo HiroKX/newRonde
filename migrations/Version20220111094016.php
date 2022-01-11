@@ -24,7 +24,7 @@ final class Version20220111094016 extends AbstractMigration
         $this->addSql('INSERT INTO `type` (nom) VALUES ("Engagement")');
 
         // Achive
-        $this->addSql('INSERT INTO `archive` (denom, annee) VALUES ("année 2020","2020")');
+        $this->addSql('INSERT INTO `archive` (denom, annee) VALUES ("année 2020", 2020)');
     }
 
     public function down(Schema $schema): void
