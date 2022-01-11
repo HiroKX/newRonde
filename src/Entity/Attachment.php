@@ -2,17 +2,11 @@
 
 namespace App\Entity;
 
-use App\Repository\AttachmentsRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use App\Repository\AttachmentRepository;
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\ORM\Mapping\InverseJoinColumn;
-use Doctrine\ORM\Mapping\JoinColumn;
-use Doctrine\ORM\Mapping\JoinTable;
-use Doctrine\ORM\Mapping\ManyToMany;
 
-#[ORM\Entity(repositoryClass: AttachmentsRepository::class)]
-class Attachments{
+#[ORM\Entity(repositoryClass: AttachmentRepository::class)]
+class Attachment{
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]

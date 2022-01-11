@@ -37,13 +37,13 @@ class Article
     #[ORM\JoinColumn(nullable: false)]
     private Archive $annee;
 
-    #[ManyToMany(targetEntity: Attachments::class,cascade: ["remove"])]
+    #[ManyToMany(targetEntity: Attachment::class,cascade: ["remove"])]
     #[JoinTable(name: "article_file_attachment")]
     #[JoinColumn(name: "article_id", referencedColumnName: "id")]
     #[InverseJoinColumn(name: "attachments_id", referencedColumnName: "id")]
     private Collection $attachments;
 
-    #[ManyToMany(targetEntity: Attachments::class,cascade: ["remove"])]
+    #[ManyToMany(targetEntity: Attachment::class,cascade: ["remove"])]
     #[JoinTable(name: "article_image_attachment")]
     #[JoinColumn(name: "article_id", referencedColumnName: "id")]
     #[InverseJoinColumn(name: "attachments_id", referencedColumnName: "id")]
@@ -189,10 +189,10 @@ class Article
     }
 
     /**
-     * @param Attachments $attachment
+     * @param Attachment $attachment
      * @return $this
      */
-    public function addAttachment(Attachments $attachment): self
+    public function addAttachment(Attachment $attachment): self
     {
         if (!$this->attachments->contains($attachment)) {
             $this->attachments[] = $attachment;
@@ -202,12 +202,12 @@ class Article
     }
 
     /**
-     * @param Attachments $attachments
+     * @param Attachment $attachment
      * @return $this
      */
-    public function removeAttachment(Attachments $attachments): self
+    public function removeAttachment(Attachment $attachment): self
     {
-        $this->attachments->removeElement($attachments);
+        $this->attachments->removeElement($attachment);
 
         return $this;
     }
@@ -221,25 +221,25 @@ class Article
     }
 
     /**
-     * @param Attachments $attachments
+     * @param Attachment $attachment
      * @return $this
      */
-    public function addImage(Attachments $attachments): self
+    public function addImage(Attachment $attachment): self
     {
-        if (!$this->images->contains($attachments)) {
-            $this->images[] = $attachments;
+        if (!$this->images->contains($attachment)) {
+            $this->images[] = $attachment;
         }
 
         return $this;
     }
 
     /**
-     * @param Attachments $images
+     * @param Attachment $attachment
      * @return $this
      */
-    public function removeImage(Attachments $images): self
+    public function removeImage(Attachment $attachment): self
     {
-        $this->images->removeElement($images);
+        $this->images->removeElement($attachment);
 
         return $this;
     }
