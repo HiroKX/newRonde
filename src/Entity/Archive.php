@@ -6,6 +6,7 @@ use App\Repository\ArchiveRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use JetBrains\PhpStorm\Pure;
 
 #[ORM\Entity(repositoryClass: ArchiveRepository::class)]
 class Archive
@@ -13,37 +14,43 @@ class Archive
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
-    private $id;
+    private int $id;
 
     #[ORM\Column(type: 'string', length: 255)]
-    private $denom;
+    private string $denom;
 
     #[ORM\Column(type: 'integer')]
-    private $annee;
+    private int $annee;
 
     #[ORM\OneToMany(mappedBy: 'annee', targetEntity: Article::class)]
-    private $articles;
+    private Collection $articles;
 
-    public function __toString()
-    {
-        return $this->annee;
-    }
-
+    #[Pure]
     public function __construct()
     {
         $this->articles = new ArrayCollection();
     }
 
+    /**
+     * @return int|null
+     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
+    /**
+     * @return string|null
+     */
     public function getDenom(): ?string
     {
         return $this->denom;
     }
 
+    /**
+     * @param string $denom
+     * @return $this
+     */
     public function setDenom(string $denom): self
     {
         $this->denom = $denom;
@@ -51,11 +58,18 @@ class Archive
         return $this;
     }
 
+    /**
+     * @return int|null
+     */
     public function getAnnee(): ?int
     {
         return $this->annee;
     }
 
+    /**
+     * @param int $annee
+     * @return $this
+     */
     public function setAnnee(int $annee): self
     {
         $this->annee = $annee;
@@ -64,13 +78,17 @@ class Archive
     }
 
     /**
-     * @return Collection|Article[]
+     * @return Collection
      */
     public function getArticles(): Collection
     {
         return $this->articles;
     }
 
+    /**
+     * @param Article $article
+     * @return $this
+     */
     public function addArticle(Article $article): self
     {
         if (!$this->articles->contains($article)) {
@@ -81,6 +99,10 @@ class Archive
         return $this;
     }
 
+    /**
+     * @param Article $article
+     * @return $this
+     */
     public function removeArticle(Article $article): self
     {
         if ($this->articles->removeElement($article)) {

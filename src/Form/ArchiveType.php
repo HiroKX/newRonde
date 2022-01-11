@@ -10,14 +10,24 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class ArchiveType extends AbstractType
 {
+    /**
+     * @inheritDoc
+     */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('denom',TextType::class,['label'=>"Titre de l'Archive"])
-            ->add('annee',TextType::class,['label'=>"Année"])
+            ->add('denom',TextType::class, [
+                'label' => 'Titre de l\'Archive',
+            ])
+            ->add('annee',TextType::class, [
+                'label' => 'Année',
+            ])
         ;
     }
 
+    /**
+     * @inheritDoc
+     */
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([

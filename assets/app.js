@@ -13,3 +13,5 @@ global.$ = global.jQuery = $;
 
 import '@popperjs/core';
 import 'bootstrap';
+
+console.debug('app.js loaded');

@@ -2,7 +2,10 @@
 
 namespace App\Form;
 
+use App\Entity\Archive;
 use App\Entity\Article;
+use App\Entity\Type;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
@@ -45,8 +48,20 @@ class ArticleType extends AbstractType
                 'attr'=>['accept' => "image/*"],
                 'mapped' => false,
             ])
-            ->add('type')
-            ->add('annee');
+            ->add('type', EntityType::class, [
+                'class' => Type::class,
+                'choice_label' => 'nom',
+                'placeholder' => 'Choisir un type d\'article...',
+                'multiple' => false,
+                'expanded' => false,
+            ])
+            ->add('annee', EntityType::class, [
+                'class' => Archive::class,
+                'choice_label' => 'denom',
+                'placeholder' => 'Choisir une année...',
+                'multiple' => false,
+                'expanded' => false,
+            ]);
     }
 
     /**

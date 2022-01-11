@@ -16,20 +16,16 @@ class Attachments{
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
-    private $id;
+    private int $id;
 
     #[ORM\Column(type: 'string', length: 255)]
-    private $originalFilename;
+    private string $originalFilename;
 
     #[ORM\Column(type: 'string', length: 255)]
-    private $filename;
+    private string $filename;
 
     #[ORM\Column(type: 'integer')]
-    private $taille;
-
-    public function __construct()
-    {
-    }
+    private int $taille;
 
     /**
      * @return int|null
@@ -95,24 +91,4 @@ class Attachments{
 
         return $this;
     }
-
-    /**
-     * @return Article|null
-     */
-    public function getArticle(): ?Article
-    {
-        return $this->article;
-    }
-
-    /**
-     * @param Article|null $article
-     * @return $this
-     */
-    public function setArticle(?Article $article): self
-    {
-        $this->article = $article;
-
-        return $this;
-    }
-
 }
