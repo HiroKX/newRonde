@@ -4,14 +4,11 @@ namespace App\Controller;
 
 use App\Entity\Article;
 use App\Entity\Attachment;
-//use App\Entity\Images;
 use App\Form\ArticleType;
-
-use App\Service\FileUploadService;
 use App\Repository\ArticleRepository;
 use App\Service\FileUploadServiceInterface;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\EntityManagerInterface;
-use http\Exception\RuntimeException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -22,6 +19,16 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/article')]
 class ArticleController extends AbstractController
 {
+    private FileUploadServiceInterface $uploaderService;
+
+    /**
+     * @param FileUploadServiceInterface $uploaderService
+     */
+    public function __construct(FileUploadServiceInterface $uploaderService)
+    {
+        $this->uploaderService = $uploaderService;
+    }
+
     /**
      * @param ArticleRepository $articleRepository
      * @return Response
@@ -85,15 +92,9 @@ class ArticleController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $attachs = $form->get('attachments')->getData();
-            foreach ($attachs as $attach) {
-                /** @var UploadedFile $imageUploadedFile */
-                $imageUploadedFile = $attach->getFile();
-
-                if ($imageUploadedFile) {
-                    $attachmentObject = $uploaderService->upload($attach);
-                    $article->addAttachment($attachmentObject);
-                }
+            $attachment = $this->uploadAttachment($form->get('attachments')->getData());
+            if ($attachment) {
+                $article->addAttachment($attachment);
             }
 
             /*$images = $form->get('images')->getData();
@@ -141,15 +142,9 @@ class ArticleController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $attachs = $form->get('attachments')->getData();
-            foreach ($attachs as $attach) {
-                /** @var UploadedFile $imageUploadedFile */
-                $imageUploadedFile = $attach->getFile();
-
-                if ($imageUploadedFile) {
-                    $attachmentObject = $uploaderService->upload($attach);
-                    $article->addAttachment($attachmentObject);
-                }
+            $attachment = $this->uploadAttachment($form->get('attachments')->getData());
+            if ($attachment) {
+                $article->addAttachment($attachment);
             }
 
             /*$images = $form->get('images')->getData();
@@ -199,5 +194,23 @@ class ArticleController extends AbstractController
         }
 
         return $this->redirectToRoute('article_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    /**
+     * @param Collection $attachments
+     * @return Attachment|null
+     */
+    private function uploadAttachment(Collection $attachments): ?Attachment
+    {
+        foreach ($attachments as $attachment) {
+            /** @var UploadedFile $imageUploadedFile */
+            $imageUploadedFile = $attachment->getFile();
+
+            if ($imageUploadedFile) {
+                return $this->uploaderService->upload($attachment);
+            }
+        }
+
+        return null;
     }
 }
