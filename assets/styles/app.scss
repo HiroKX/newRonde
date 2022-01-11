@@ -10,11 +10,7 @@
 @import "~@fortawesome/fontawesome-free/scss/solid";
 @import "~@fortawesome/fontawesome-free/scss/regular";
 
-.slick-prev:before, .slick-next:before  {
-  color: black !important;
-}
-.b
-.article, .divperso {
+.b, .article, .divperso {
   margin: 0px 25px;
   padding: 25px;
   width: 75%;
@@ -72,6 +68,15 @@ img{
   width:100%;
 }
 
+figure.image {
+  &.image-style-side {
+    float: right;
+  }
+}
+
+.breaking {
+  clear: both;
+}
 
 @media (max-width: 600px) {
   .article, .divperso {

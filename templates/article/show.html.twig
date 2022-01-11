@@ -15,7 +15,7 @@
                 <h3>{{ article.titre }}</h3>
                 <h5>{{ article.utitre }}</h5>
                 <div>{{ article.contenu | raw }}</div>
-                <ul class="">
+                <ul class="breaking">
                     {% for attachment in article.attachments %}
                         <li><a href="{{ path('article_download_attachment', {'id': attachment.id}) }}">
                                 Document a télécharger : {{ attachment.originalFilename }}
@@ -23,7 +23,9 @@
                     {% endfor %}
                 </ul>
             {% endif %}
-            {{ article_macro.carousel(article.images) }}
+            <div class="breaking">
+                {{ article_macro.carousel(article.images) }}
+            </div>
             <div class="mt-2">
                 <a href="{{ path('article_index') }}" class="btn btn-primary">Retour</a>
                 {% if app.user %}
