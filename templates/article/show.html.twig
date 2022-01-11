@@ -16,8 +16,8 @@
                     {% endfor %}
                 </ul>
             {% endif %}
-            {%for image in article.images %}
-                <img src=" {{ asset('/uploads/' ~ image.filename) }}" alt="{{ image.originalFilename }}"/>
+            {% for image in article.images %}
+                <img src=" {{ asset(pathArticleAttachment ~ image.filename) }}" alt="{{ image.originalFilename }}"/>
             {% endfor %}
             <div class="mt-2">
                 <a href="{{ path('article_index') }}" class="btn btn-primary">Retour</a>

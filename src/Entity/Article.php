@@ -55,8 +55,8 @@ class Article
     public function __construct()
     {
         $this->dateAdd = new \DateTime();
-        $this->images = new ArrayCollection();
         $this->attachments = new ArrayCollection();
+        $this->images = new ArrayCollection();
     }
 
     /**
