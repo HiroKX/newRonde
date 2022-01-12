@@ -59,7 +59,7 @@ class TypeController extends AbstractController
      * @return Response
      */
     #[IsGranted('ROLE_ADMIN')]
-    #[Route('/{id}', name: 'type_show', methods: ['GET'])]
+    #[Route('/{code}', name: 'type_show', methods: ['GET'])]
     public function show(Type $type): Response
     {
         return $this->render('type/show.html.twig', [
@@ -74,10 +74,12 @@ class TypeController extends AbstractController
      * @return Response
      */
     #[IsGranted('ROLE_ADMIN')]
-    #[Route('/{id}/edit', name: 'type_edit', methods: ['GET', 'POST'])]
+    #[Route('/{code}/edit', name: 'type_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Type $type, EntityManagerInterface $entityManager): Response
     {
-        $form = $this->createForm(TypeType::class, $type);
+        $form = $this->createForm(TypeType::class, $type, [
+            'is_disabled' => true,
+        ]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -99,10 +101,10 @@ class TypeController extends AbstractController
      * @return Response
      */
     #[IsGranted('ROLE_ADMIN')]
-    #[Route('/{id}', name: 'type_delete', methods: ['POST'])]
+    #[Route('/{code}', name: 'type_delete', methods: ['POST'])]
     public function delete(Request $request, Type $type, EntityManagerInterface $entityManager): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$type->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete'.$type->getCode(), $request->request->get('_token'))) {
             $entityManager->remove($type);
             $entityManager->flush();
         }

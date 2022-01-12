@@ -9,7 +9,7 @@
     <table class="table">
         <thead>
             <tr>
-                <th>Id</th>
+                <th>Code</th>
                 <th>Nom</th>
                 <th>actions</th>
             </tr>
@@ -17,10 +17,10 @@
         <tbody>
         {% for type in types %}
             <tr>
-                <td>{{ type.id }}</td>
+                <td>{{ type.code }}</td>
                 <td>{{ type.nom }}</td>
                 <td>
-                    <a href="{{ path('type_edit', {'id': type.id}) }}" class ="btn btn-warning">Modifier</a>
+                    <a href="{{ path('type_edit', {'code': type.code}) }}" class ="btn btn-warning">Modifier</a>
                 </td>
             </tr>
         {% else %}

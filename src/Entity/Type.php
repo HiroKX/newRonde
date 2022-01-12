@@ -43,6 +43,17 @@ class Type
     }
 
     /**
+     * @param string $code
+     * @return $this
+     */
+    public function setCode(string $code): self
+    {
+        $this->code = $code;
+
+        return $this;
+    }
+
+    /**
      * @return string|null
      */
     public function getNom(): ?string

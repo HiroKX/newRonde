@@ -9,8 +9,8 @@
     <table class="table">
         <tbody>
             <tr>
-                <th>Id</th>
-                <td>{{ type.id }}</td>
+                <th>Code</th>
+                <td>{{ type.code }}</td>
             </tr>
             <tr>
                 <th>Nom</th>
@@ -21,7 +21,7 @@
 
     <a href="{{ path('type_index') }}" class="btn btn-primary mt-2">Retour</a>
 
-    <a href="{{ path('type_edit', {'id': type.id}) }}" class="btn btn-warning mt-2">Modifié</a>
+    <a href="{{ path('type_edit', {'code': type.code}) }}" class="btn btn-warning mt-2">Modifié</a>
 
     {{ include('type/_delete_form.html.twig') }}
 </div>
