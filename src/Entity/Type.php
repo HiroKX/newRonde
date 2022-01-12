@@ -12,9 +12,8 @@ use JetBrains\PhpStorm\Pure;
 class Type
 {
     #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column(type: 'integer')]
-    private int $id;
+    #[ORM\Column(type: 'string', unique: true)]
+    private string $code;
 
     #[ORM\Column(type: 'string', length: 255)]
     private string $nom;
@@ -29,11 +28,11 @@ class Type
     }
 
     /**
-     * @return int|null
+     * @return string|null
      */
-    public function getId(): ?int
+    public function getCode(): ?string
     {
-        return $this->id;
+        return $this->code;
     }
 
     /**

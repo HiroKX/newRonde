@@ -30,7 +30,7 @@ class Article
     private string $contenu;
 
     #[ORM\ManyToOne(targetEntity: Type::class, inversedBy: 'articles')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(name: "type_code", referencedColumnName: "code", nullable: false)]
     private Type $type;
 
     #[ORM\ManyToOne(targetEntity: Archive::class, inversedBy: 'articles')]

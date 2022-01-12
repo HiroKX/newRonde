@@ -7,7 +7,7 @@ namespace DoctrineMigrations;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
 
-final class Version20220111094016 extends AbstractMigration
+final class Version20220112105633 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -17,11 +17,11 @@ final class Version20220111094016 extends AbstractMigration
     public function up(Schema $schema): void
     {
         // Type
-        $this->addSql('INSERT INTO `type` (nom) VALUES ("Article")');
-        $this->addSql('INSERT INTO `type` (nom) VALUES ("Gallerie")');
-        $this->addSql('INSERT INTO `type` (nom) VALUES ("Zone Etalonnage")');
-        $this->addSql('INSERT INTO `type` (nom) VALUES ("Règlement")');
-        $this->addSql('INSERT INTO `type` (nom) VALUES ("Engagement")');
+        $this->addSql('INSERT INTO `type` (code, nom) VALUES ("ART", "Article")');
+        $this->addSql('INSERT INTO `type` (code, nom) VALUES ("GAL", "Gallerie")');
+        $this->addSql('INSERT INTO `type` (code, nom) VALUES ("ETA", "Zone Etalonnage")');
+        $this->addSql('INSERT INTO `type` (code, nom) VALUES ("REG", "Règlement")');
+        $this->addSql('INSERT INTO `type` (code, nom) VALUES ("ENG", "Engagement")');
 
         // Achive
         $this->addSql('INSERT INTO `archive` (denom, annee) VALUES ("année 2020", 2020)');
