@@ -46,8 +46,6 @@ class ArticleController extends AbstractController
     #[Route('/reglement', name: 'article_reg', methods: ['GET'])]
     public function reglement(ArticleRepository $articleRepository): Response
     {
-        $this->alertService->info('Aucun article de type "Règlement" vous avez été rediriger vers la page d\'acceuil.');
-
         return $this->showArticle(Type::CODE_REGLEMENT, $articleRepository);
     }
 
@@ -59,8 +57,6 @@ class ArticleController extends AbstractController
     #[Route('/etalonnage', name: 'article_eta', methods: ['GET'])]
     public function etalonnage(ArticleRepository $articleRepository): Response
     {
-        $this->alertService->info('Aucun article de type "Etalonnage" vous avez été rediriger vers la page d\'acceuil.');
-
         return $this->showArticle(Type::CODE_ETALONNAGE, $articleRepository);
     }
 
@@ -72,8 +68,6 @@ class ArticleController extends AbstractController
     #[Route('/engagement', name: 'article_eng', methods: ['GET'])]
     public function engagement(ArticleRepository $articleRepository): Response
     {
-        $this->alertService->info('Aucun article de type "Engagement" vous avez été rediriger vers la page d\'acceuil.');
-
         return $this->showArticle(Type::CODE_ENGAGEMENT, $articleRepository);
     }
 
@@ -89,6 +83,7 @@ class ArticleController extends AbstractController
         $article = $articleRepository->findOneBy(['type' => $type]);
 
         if (!$article) {
+            $this->alertService->info(sprintf('Aucun article de type "%s" vous avez été rediriger vers la page d\'acceuil.', $type->getNom()));
             return $this->redirectToRoute('article_index');
         }
 
