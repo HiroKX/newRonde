@@ -21,7 +21,9 @@
                         </a></li>
                 {% endfor %}
             </ul>
+            {% if not article.images is empty  %}
             {{ article_macro.carousel(article.images) }}
+            {% endif %}
             <div class="mt-2">
                 <a href="{{ path('article_index') }}" class="btn btn-primary">Retour</a>
                 {% if app.user %}

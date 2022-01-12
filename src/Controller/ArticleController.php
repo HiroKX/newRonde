@@ -4,8 +4,10 @@ namespace App\Controller;
 
 use App\Entity\Article;
 use App\Entity\Attachment;
+use App\Entity\Type;
 use App\Form\ArticleType;
 use App\Repository\ArticleRepository;
+use App\Repository\TypeRepository;
 use App\Service\AlertServiceInterface;
 use App\Service\FileUploadServiceInterface;
 use Doctrine\Common\Collections\Collection;
@@ -52,11 +54,12 @@ class ArticleController extends AbstractController
      * @param ArticleRepository $articleRepository
      * @return Response
      */
-    #[Route('/', name: 'article_reg', methods: ['GET'])]
-    public function reglement(ArticleRepository $articleRepository): Response
+    #[Route('/reglement', name: 'article_reg', methods: ['GET'])]
+    public function reglement(ArticleRepository $articleRepository,TypeRepository $typeRepository): Response
     {
-        return $this->render('article/index.html.twig', [
-            'articles' => $articleRepository->findAll(),
+        $type = $typeRepository->findOneBy(array('nom'=>'Règlement'),array());
+        return $this->render('article/show.html.twig', [
+            'article' => $articleRepository->findOneBy(array('type'=>$type),array('dateAdd'=>'DESC')),
         ]);
     }
 
@@ -64,11 +67,12 @@ class ArticleController extends AbstractController
      * @param ArticleRepository $articleRepository
      * @return Response
      */
-    #[Route('/', name: 'article_eta', methods: ['GET'])]
-    public function etalonnage(ArticleRepository $articleRepository): Response
+    #[Route('/etalonnage', name: 'article_eta', methods: ['GET'])]
+    public function etalonnage(ArticleRepository $articleRepository,TypeRepository $typeRepository): Response
     {
-        return $this->render('article/index.html.twig', [
-            'articles' => $articleRepository->findAll(),
+        $type = $typeRepository->findOneBy(array('nom'=>'Zone Etalonnage'),array());
+        return $this->render('article/show.html.twig', [
+            'article' => $articleRepository->findOneBy(array('type'=>$type),array('dateAdd'=>'DESC')),
         ]);
     }
 
@@ -76,11 +80,12 @@ class ArticleController extends AbstractController
      * @param ArticleRepository $articleRepository
      * @return Response
      */
-    #[Route('/', name: 'article_eng', methods: ['GET'])]
-    public function engagement(ArticleRepository $articleRepository): Response
+    #[Route('/engagement', name: 'article_eng', methods: ['GET'])]
+    public function engagement(ArticleRepository $articleRepository,TypeRepository $typeRepository): Response
     {
-        return $this->render('article/index.html.twig', [
-            'articles' => $articleRepository->findAll(),
+        $type = $typeRepository->findOneBy(array('nom'=>'Engagement'),array());
+        return $this->render('article/show.html.twig', [
+            'article' => $articleRepository->findOneBy(array('type'=>$type),array('dateAdd'=>'DESC')),
         ]);
     }
 
