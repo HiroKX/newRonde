@@ -1,6 +1,8 @@
-@import '~slick-carousel/slick/slick';
-@import '~slick-carousel/slick/slick-theme';
+@import '~swiper/scss';
+@import '~swiper/scss/navigation';
+@import '~swiper/scss/pagination';
 
-.slick-prev:before, .slick-next:before {
-  color: black !important;
+.swiper {
+  width: 100%;
+  height: 500px;
 }

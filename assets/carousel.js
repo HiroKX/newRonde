@@ -1,13 +1,26 @@
 import './styles/carousel.scss';
-import 'slick-carousel/slick/slick';
+import Swiper, { Navigation, Pagination } from 'swiper';
 
-const $ = require('jquery');
-global.$ = global.jQuery = $;
+Swiper.use([Navigation, Pagination]);
 
-$('.image-carousel').slick({
-    infinite: true,
-    dots: true,
-    speed: 500
+new Swiper('.swiper', {
+    // Optional parameters
+    direction: 'horizontal',
+    loop: true,
+
+    // If we need pagination
+    pagination: {
+        el: '.swiper-pagination',
+    },
+
+    // Navigation arrows
+    navigation: {
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev',
+    },
+
+    // And if we need scrollbar
+    scrollbar: {
+        el: '.swiper-scrollbar',
+    },
 });
-
-console.debug('carousel.js loaded');

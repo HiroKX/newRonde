@@ -25,6 +25,6 @@
     "@fortawesome/fontawesome-free": "^5.15.4",
     "bootstrap": "^5.1.3",
     "ckeditor5-build-classic-base64-upload": "^27.0.2",
-    "slick-carousel": "^1.8.1"
+    "swiper": "^7.4.1"
   }
 }

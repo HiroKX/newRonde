@@ -44,6 +44,7 @@
 
 {% macro attachementImageGallery(form) %}
     {% set imagesCollection = form.vars.data.images %}
+
     {{ form_row(form.images) }}
     <div class="collection-gallery">
         {% for image in imagesCollection %}
@@ -54,11 +55,15 @@
 {% endmacro %}
 
 {% macro carousel(images) %}
-    <div class="image-carousel">
-        {% for image in images %}
-            <div class="slick-slider">
-                <img src="{{ asset(pathArticleAttachment ~ image.filename) }}" alt="{{ image.originalFilename }}" class="img-fluid"/>
-            </div>
-        {% endfor %}
+    <div class="swiper">
+        <div class="swiper-wrapper">
+            {% for image in images %}
+                <img class="swiper-slide" src=" {{ asset(pathArticleAttachment ~ image.filename) }}" alt="{{ image.originalFilename }}"/>
+            {% endfor %}
+        </div>
+        <div class="swiper-pagination"></div>
+        <div class="swiper-button-prev"></div>
+        <div class="swiper-button-next"></div>
+        <div class="swiper-scrollbar"></div>
     </div>
 {% endmacro %}

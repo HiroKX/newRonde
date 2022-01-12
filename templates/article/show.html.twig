@@ -11,21 +11,17 @@
 
 {% block body %}
         <div class="mx-auto w-75 align-items-center article">
-            {% if (article is defined) %}
-                <h3>{{ article.titre }}</h3>
-                <h5>{{ article.utitre }}</h5>
-                <div>{{ article.contenu | raw }}</div>
-                <ul class="breaking">
-                    {% for attachment in article.attachments %}
-                        <li><a href="{{ path('article_download_attachment', {'id': attachment.id}) }}">
-                                Document a télécharger : {{ attachment.originalFilename }}
-                            </a></li>
-                    {% endfor %}
-                </ul>
-            {% endif %}
-            <div class="breaking">
-                {{ article_macro.carousel(article.images) }}
-            </div>
+            <h3>{{ article.titre }}</h3>
+            <h5>{{ article.utitre }}</h5>
+            <div>{{ article.contenu | raw }}</div>
+            <ul class="">
+                {% for attachment in article.attachments %}
+                    <li><a href="{{ path('article_download_attachment', {'id': attachment.id}) }}">
+                            Document a télécharger : {{ attachment.originalFilename }}
+                        </a></li>
+                {% endfor %}
+            </ul>
+            {{ article_macro.carousel(article.images) }}
             <div class="mt-2">
                 <a href="{{ path('article_index') }}" class="btn btn-primary">Retour</a>
                 {% if app.user %}
