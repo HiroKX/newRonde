@@ -7,11 +7,11 @@ use App\Entity\Attachment;
 use App\Entity\Type;
 use App\Form\ArticleType;
 use App\Repository\ArticleRepository;
-use App\Repository\TypeRepository;
 use App\Service\AlertServiceInterface;
 use App\Service\FileUploadServiceInterface;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\ORMException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -19,7 +19,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-#[Route('/article')]
+#[Route('/')]
 class ArticleController extends AbstractController
 {
     private FileUploadServiceInterface $uploaderService;
@@ -41,51 +41,59 @@ class ArticleController extends AbstractController
     /**
      * @param ArticleRepository $articleRepository
      * @return Response
-     */
-    #[Route('/', name: 'article_index', methods: ['GET'])]
-    public function index(ArticleRepository $articleRepository): Response
-    {
-        return $this->render('article/index.html.twig', [
-            'articles' => $articleRepository->findAll(),
-        ]);
-    }
-
-    /**
-     * @param ArticleRepository $articleRepository
-     * @return Response
+     * @throws ORMException
      */
     #[Route('/reglement', name: 'article_reg', methods: ['GET'])]
-    public function reglement(ArticleRepository $articleRepository,TypeRepository $typeRepository): Response
+    public function reglement(ArticleRepository $articleRepository): Response
     {
-        $type = $typeRepository->findOneBy(array('nom'=>'Règlement'),array());
-        return $this->render('article/show.html.twig', [
-            'article' => $articleRepository->findOneBy(array('type'=>$type),array('dateAdd'=>'DESC')),
-        ]);
+        $this->alertService->info('Aucun article de type "Règlement" vous avez été rediriger vers la page d\'acceuil.');
+
+        return $this->showArticle(Type::CODE_REGLEMENT, $articleRepository);
     }
 
     /**
      * @param ArticleRepository $articleRepository
      * @return Response
+     * @throws ORMException
      */
     #[Route('/etalonnage', name: 'article_eta', methods: ['GET'])]
-    public function etalonnage(ArticleRepository $articleRepository,TypeRepository $typeRepository): Response
+    public function etalonnage(ArticleRepository $articleRepository): Response
     {
-        $type = $typeRepository->findOneBy(array('nom'=>'Zone Etalonnage'),array());
-        return $this->render('article/show.html.twig', [
-            'article' => $articleRepository->findOneBy(array('type'=>$type),array('dateAdd'=>'DESC')),
-        ]);
+        $this->alertService->info('Aucun article de type "Etalonnage" vous avez été rediriger vers la page d\'acceuil.');
+
+        return $this->showArticle(Type::CODE_ETALONNAGE, $articleRepository);
     }
 
     /**
      * @param ArticleRepository $articleRepository
      * @return Response
+     * @throws ORMException
      */
     #[Route('/engagement', name: 'article_eng', methods: ['GET'])]
-    public function engagement(ArticleRepository $articleRepository,TypeRepository $typeRepository): Response
+    public function engagement(ArticleRepository $articleRepository): Response
     {
-        $type = $typeRepository->findOneBy(array('nom'=>'Engagement'),array());
+        $this->alertService->info('Aucun article de type "Engagement" vous avez été rediriger vers la page d\'acceuil.');
+
+        return $this->showArticle(Type::CODE_ENGAGEMENT, $articleRepository);
+    }
+
+    /**
+     * @param string $codeType
+     * @param ArticleRepository $articleRepository
+     * @return Response
+     * @throws ORMException
+     */
+    private function showArticle(string $codeType, ArticleRepository $articleRepository): Response
+    {
+        $type = $this->entityManager->getReference(Type::class, $codeType);
+        $article = $articleRepository->findOneBy(['type' => $type]);
+
+        if (!$article) {
+            return $this->redirectToRoute('article_index');
+        }
+
         return $this->render('article/show.html.twig', [
-            'article' => $articleRepository->findOneBy(array('type'=>$type),array('dateAdd'=>'DESC')),
+            'article' => $article,
         ]);
     }
 

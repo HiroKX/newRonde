@@ -11,6 +11,13 @@ use JetBrains\PhpStorm\Pure;
 #[ORM\Entity(repositoryClass: TypeRepository::class)]
 class Type
 {
+    /** @const code type */
+    public const CODE_ARTICLE = 'ART';
+    public const CODE_GALLERY = 'GAL';
+    public const CODE_ETALONNAGE = 'ETA';
+    public const CODE_REGLEMENT = 'REG';
+    public const CODE_ENGAGEMENT = 'ENG';
+
     #[ORM\Id]
     #[ORM\Column(type: 'string', unique: true)]
     private string $code;
