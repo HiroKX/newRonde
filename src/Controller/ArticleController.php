@@ -19,7 +19,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-#[Route('/')]
+#[Route('/article')]
 class ArticleController extends AbstractController
 {
     private FileUploadServiceInterface $uploaderService;
@@ -84,7 +84,7 @@ class ArticleController extends AbstractController
 
         if (!$article) {
             $this->alertService->info(sprintf('Aucun article de type "%s" vous avez été rediriger vers la page d\'acceuil.', $type->getNom()));
-            return $this->redirectToRoute('article_index');
+            return $this->redirectToRoute('index');
         }
 
         return $this->render('article/show.html.twig', [
