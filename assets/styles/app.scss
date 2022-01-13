@@ -1,8 +1,20 @@
+@import './variables';
+
 // Bootstrap
 @import "~bootstrap/scss/bootstrap";
-@import "~bootstrap/scss/bootstrap-grid";
-@import "~bootstrap/scss/bootstrap-utilities";
-@import "~bootstrap/scss/bootstrap-reboot";
+
+// Global CSS
+@import './global';
+
+// Components
+@import './components/buttons';
+@import './components/forms';
+@import './components/navbar';
+
+// Sections
+@import './sections/footer';
+@import './sections/masthead';
+@import './sections/post';
 
 // Font Awesome
 @import "~@fortawesome/fontawesome-free/scss/fontawesome";
@@ -11,13 +23,13 @@
 @import "~@fortawesome/fontawesome-free/scss/regular";
 
 .b, .article, .divperso {
-  margin: 0px 25px;
+  margin: 0 25px;
   padding: 25px;
   width: 75%;
-  border-radius: 0px 0px 10px 10px;
+  border-radius: 0 0 10px 10px;
   background-color: #dfdfdf;
-  -webkit-box-shadow: 0px 13px 40px 14px rgba(0, 0, 0, 0.15);
-  box-shadow: 0px 13px 40px 14px rgba(0, 0, 0, 0.15);
+  -webkit-box-shadow: 0 13px 40px 14px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 13px 40px 14px rgba(0, 0, 0, 0.15);
 }
 input, select{
   display:block;
@@ -28,14 +40,12 @@ input, select{
 nav{
   font-size: 1.5em;
 }
-.nav-item:not(.active){
-  border-left:1px grey solid;
-}
+
 .card{
   border-radius: 5px;
   margin-bottom: 10px;
-  -webkit-box-shadow: 0px 13px 40px 14px rgba(0, 0, 0, 0.15);
-  box-shadow: 0px 13px 40px 14px rgba(0, 0, 0, 0.05);
+  -webkit-box-shadow: 0 13px 40px 14px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 13px 40px 14px rgba(0, 0, 0, 0.05);
 }
 
 .footer {

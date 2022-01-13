@@ -1,0 +1,13 @@
+<section>
+    <h3 class="text-center mb-3">Les derniers articles</h3>
+    <div class="row">
+        {% for article in articles %}
+            <article class="col-4">
+                <h2>{{ article.titre }}</h2>
+                <small>{{ article.utitre }}</small>
+                <div class="float-end">{{ article.dateAdd|date('d/m/Y') }}</div>
+                <a class="btn btn-outline-primary w-100" href="{{ path('article_show', {'id': article.id}) }}">Lire la suite...</a>
+            </article>
+        {% endfor %}
+    </div>
+</section>

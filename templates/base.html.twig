@@ -14,80 +14,100 @@
     {% endblock %}
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <img class="navbar-brand img-nav" src="{{ asset('build/images/img.png') }}" alt="logo" />
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav">
-                <li class="nav-item active">
-                    <a class="nav-link" href="{{ path('index') }}">Accueil</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ path('article_eng') }}">Engagement</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ path('article_reg') }}">Règlement</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ path('article_eta') }}">Etalonnage</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ path('archive_index') }}">Archives</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ path('contact') }}">Contact</a>
-                </li>
-
-                {% if app.user %}
-
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ path('article_new') }}">Créer un article</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ path('archive_new') }}">Créer une Archive</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ path('type_index') }}">Type d'article</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ path('app_logout') }}">Se déconnecter</a>
-                    </li>
-                {% endif %}
-            </ul>
+    <nav class="navbar navbar-expand-lg navbar-light" id="mainNav">
+        <div class="container px-4 px-lg-5">
+            <img class="navbar-brand img-nav" src="{{ asset('build/images/img.png') }}" alt="logo" />
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                Menu
+                <i class="fas fa-bars"></i>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="navbar-nav ms-auto py-4 py-lg-0">
+                    <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="{{ path('index') }}">Accueil</a></li>
+                    <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="{{ path('article_eng') }}">Engagement</a></li>
+                    <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="{{ path('article_reg') }}">Règlement</a></li>
+                    <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="{{ path('article_eta') }}">Etalonnage</a></li>
+                    <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="{{ path('contact') }}">Contact</a></li>
+                </ul>
+            </div>
         </div>
     </nav>
-    {% if not app.user %}
-        <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
-            <div class="carousel-inner">
-                <div class="carousel-item active">
-                    <img class="d-block w-100 img-fluid" src="{{ asset('build/images/rallye5.jpeg') }}" alt="First slide">
-                </div>
-                <div class="carousel-item">
-                    <img class="d-block w-100 img-fluid" src="{{ asset('build/images/rallye6.jpeg') }}" alt="First slide">
+
+    <header class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-inner">
+            <div class="masthead carousel-item active" style="background-image: url({{ asset('build/images/1799025_842527995788411_6687151077847874194_o.jpeg') }})">
+                <div class="container position-relative px-4 px-lg-5 legend">
+                    <div class="row gx-4 gx-lg-5 justify-content-center">
+                        <div class="col-md-10 col-lg-8 col-xl-7">
+                            <div class="site-heading">
+                                <h1>La Ronde des Lingons</h1>
+                                <span class="subheading">Rallye Historique</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Previous</span>
-            </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Next</span>
-            </button>
+            <div class="masthead carousel-item" style="background-image: url({{ asset('build/images/10661946_842529182454959_382376382482845708_o.jpeg') }})">
+                <div class="container position-relative px-4 px-lg-5 legend">
+                    <div class="row gx-4 gx-lg-5 justify-content-center">
+                        <div class="col-md-10 col-lg-8 col-xl-7">
+                            <div class="site-heading">
+                                <h1>La Ronde des Lingons</h1>
+                                <span class="subheading">Rallye Historique</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="masthead carousel-item" style="background-image: url({{ asset('build/images/32399301_2057222427652289_5071710447854419968_n.jpeg') }})">
+                <div class="container position-relative px-4 px-lg-5 legend">
+                    <div class="row gx-4 gx-lg-5 justify-content-center">
+                        <div class="col-md-10 col-lg-8 col-xl-7">
+                            <div class="site-heading">
+                                <h1>La Ronde des Lingons</h1>
+                                <span class="subheading">Rallye Historique</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="masthead carousel-item" style="background-image: url({{ asset('build/images/32836737_2067078983333300_269739412366032896_n.jpeg') }})">
+                <div class="container position-relative px-4 px-lg-5 legend">
+                    <div class="row gx-4 gx-lg-5 justify-content-center">
+                        <div class="col-md-10 col-lg-8 col-xl-7">
+                            <div class="site-heading">
+                                <h1>La Ronde des Lingons</h1>
+                                <span class="subheading">Rallye Historique</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-    {% endif %}
-
-    <div class="container">
+    </header>
+    <div class="container-fluid">
         {{ include('_flash_message.html.twig') }}
         {% block body %}{% endblock %}
     </div>
 </body>
-<footer class="footer">
-    <div class="container" style="max-width: none">
-        <p>Made with ♥ ️</p>
-        <a class="link" href="{{ path('login') }}">Connection Admin</a>
+
+<footer class="border-top">
+    <div class="container px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+            <div class="col-md-10 col-lg-8 col-xl-7">
+                <ul class="list-inline text-center">
+                    <li class="list-inline-item">
+                        <a href="{{ link_fb }}" target="_blank">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-facebook-f fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                </ul>
+                <div class="small text-center text-muted fst-italic">Copyright &copy; Made with ♥ {{ "now"|date("Y") }}</div>
+            </div>
+        </div>
     </div>
 </footer>
 </html>

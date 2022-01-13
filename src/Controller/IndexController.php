@@ -22,6 +22,19 @@ class IndexController extends AbstractController
     }
 
     /**
+     * @param ArticleRepository $articleRepository
+     * @return Response
+     */
+    public function lastArticle(ArticleRepository $articleRepository): Response
+    {
+        $articles = $articleRepository->findBy([],['dateAdd' => 'ASC'], 3);
+
+        return $this->render('article/_last_article.html.twig', [
+            'articles' => $articles,
+        ]);
+    }
+
+    /**
      * @return Response
      */
     #[Route('/contact', name: 'contact', methods: ['GET'])]
