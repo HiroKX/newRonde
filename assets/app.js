@@ -108,6 +108,7 @@ function loadArticle(){
         data:       {offset:nbLoad},
 
         success: function(data, status) {
+            console.log(data);
             $('#containerArticle').append(data['html']);
             nbLoad++;
         },
