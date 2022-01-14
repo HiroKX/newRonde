@@ -165,14 +165,14 @@ class ArticleController extends AbstractController
     }
 
 
-    #[Route('/load/ajax',name:'ajax_article',methods:['POST'])]
+    #[Route('/load/ajax', name:'ajax_article', methods:['POST'], options: ['expose' => true])]
     public function loadArticle(Request $request):Response {
         $articleRepository= $this->entityManager->getRepository(Article::class);
 
         if ($request->isXmlHttpRequest()) {
             $offset = $request->get('offset');
             $articles = $articleRepository->findBy([],['dateAdd' => 'ASC'],10,10*$offset);
-            return new JsonResponse(['html'=>$this->renderView('article/ajax_article.html.twig',['articles'=>$articles])]);
+            return $this->render('article/ajax_article.html.twig',['articles'=>$articles]);
         }else{
             return $this->redirectToRoute('index', [], Response::HTTP_SEE_OTHER);
         }

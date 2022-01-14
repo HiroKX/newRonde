@@ -1,0 +1,1 @@
+{"base_url":"","routes":{"ajax_article":{"tokens":[["text","\/article\/load\/ajax"]],"defaults":[],"requirements":[],"hosttokens":[],"methods":["POST"],"schemes":[]}},"prefix":"","host":"localhost","port":"","scheme":"http","locale":""}

@@ -14,6 +14,11 @@ global.$ = global.jQuery = $;
 import '@popperjs/core';
 import 'bootstrap';
 
+const routes = require('../public/js/fos_js_routes.json');
+import Routing from '../vendor/friendsofsymfony/jsrouting-bundle/Resources/public/js/router.min.js';
+Routing.setRoutingData(routes);
+
+
 let nbLoad=1;
 let scrollPos = 0;
 const mainNav = document.getElementById('mainNav');
@@ -99,20 +104,21 @@ $(window).scroll(function () {
 });
 
 
-function loadArticle(){
-    $.ajax({
-        url:        '/article/load/ajax',
-        type:       'POST',
-        dataType:   'json',
-        async:      true,
-        data:       {offset:nbLoad},
 
+function loadArticle() {
+    $.ajax({
+        url: Routing.generate('ajax_article'),
+        type: 'POST',
+        async: true,
+        data: {
+            offset:nbLoad
+        },
         success: function(data, status) {
-            console.log(data);
-            $('#containerArticle').append(data['html']);
+            $('#containerArticle').append(data);
             nbLoad++;
         },
         error : function(xhr, textStatus, errorThrown) {
+            console.error('Erreur de chargement...');
         }
     });
 }
