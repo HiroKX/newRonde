@@ -80,7 +80,7 @@ class ArticleController extends AbstractController
     private function showArticle(string $codeType, ArticleRepository $articleRepository): Response
     {
         $type = $this->entityManager->getReference(Type::class, $codeType);
-        $article = $articleRepository->findOneBy(['type' => $type]);
+        $article = $articleRepository->findOneBy(['type' => $type],['dateAdd'=>'DESC']);
 
         if (!$article) {
             $this->alertService->info(sprintf('Aucun article de type "%s" vous avez été rediriger vers la page d\'acceuil.', $type->getNom()));
@@ -113,7 +113,7 @@ class ArticleController extends AbstractController
 
             $this->alertService->success('Article créer');
 
-            return $this->redirectToRoute('article_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('index', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('article/new.html.twig', [
@@ -154,7 +154,7 @@ class ArticleController extends AbstractController
 
             $this->alertService->success('Article modifié');
 
-            return $this->redirectToRoute('article_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('index', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('article/edit.html.twig', [
@@ -229,7 +229,7 @@ class ArticleController extends AbstractController
 
         $this->alertService->success('Article supprimé');
 
-        return $this->redirectToRoute('article_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('index', [], Response::HTTP_SEE_OTHER);
     }
 
     /**
