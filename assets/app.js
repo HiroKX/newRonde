@@ -94,7 +94,6 @@ function registerAttachmentsForm() {
 
 $(window).scroll(function () {
     if ($(window).scrollTop() >= $(document).height() - $(window).height()) {
-        $()
         loadArticle();
     }
 });
@@ -110,13 +109,9 @@ function loadArticle(){
 
         success: function(data, status) {
             $('#containerArticle').append(data['html']);
-            nbLoad = data['offset'];
+            nbLoad++;
         },
         error : function(xhr, textStatus, errorThrown) {
-            console.log(xhr);
-            console.log(textStatus);
-            console.log(errorThrown);
-            alert('Ajax request failed.');
         }
     });
 }
