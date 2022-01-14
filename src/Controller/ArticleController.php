@@ -15,6 +15,7 @@ use Doctrine\ORM\ORMException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -163,6 +164,22 @@ class ArticleController extends AbstractController
         ]);
     }
 
+
+    #[Route('/load/ajax',name:'ajax_article',methods:['POST'])]
+    public function loadArticle(Request $request):Response {
+        $articleRepository= $this->entityManager->getRepository(Article::class);
+
+        if ($request->isXmlHttpRequest()) {
+            $offset = $request->get('offset');
+            $articles = $articleRepository->findBy([],['dateAdd' => 'ASC'],10,$offset*10);
+            return new JsonResponse(['offset'=>$offset+1,
+                'html'=>$this->renderView('article/_macro_article.html.twig',['articles'=>$articles])
+            ]);
+        }else{
+            return $this->redirectToRoute('index', [], Response::HTTP_SEE_OTHER);
+        }
+    }
+
     /**
      * @param string $pathAttachmentArticle
      * @param Attachment $attachment
@@ -249,6 +266,7 @@ class ArticleController extends AbstractController
             }
         }
     }
+
 
     /**
      * @param array $images

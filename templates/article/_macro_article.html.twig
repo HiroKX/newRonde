@@ -1,69 +1,23 @@
-{% macro displayAttachment(articleAttachmentForm, newField) %}
-    {% set articleAttachment = articleAttachmentForm.vars.value %}
-    {% if articleAttachment is not empty %}
-        {% set filePath = pathArticleAttachment %}
-        {% set downloadUrl = path('article_download_attachment', {'id': articleAttachment.id}) %}
-    {% else %}
-        {% set filePath = '' %}
-        {% set downloadUrl = '' %}
-    {% endif %}
-
-    <div class="row mb-3 attachment" style="clear:both" data-download-url="{{ downloadUrl }}" data-file-name="{{ filePath }}">
-        {{ form_errors(articleAttachmentForm) }}
-        <div class="col-auto d-flex align-items-center">
-            <button type="button" class="btn-close remove-attachment" aria-label="Close"></button>
-        </div>
-        <div class="col attachment-file">
-            {{ form_label(articleAttachmentForm.file) }}
-            {{ form_widget(articleAttachmentForm.file) }}
-        </div>
-        {% if newField %}
-            <div class="col-auto d-flex align-items-center">
-                <a class="btn btn-light" target="_blank" href="{{ downloadUrl }}">
-                    <i class="fas fa-file-download" aria-hidden="true" title="Télécharger"></i>
-                </a>
-            </div>
+{% for article in articles %}
+<div class="col-lg-6 col-md-12 article_">
+  <div class="container">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">{{ article.titre }}</h5>
+        <p class="card-text">{{ article.utitre }}</p>
+        <a href="{{ path('article_show', {'id': article.id}) }}" class="btn btn-primary">En savoir plus !</a>
+        {% if app.user %}
+        <a href="{{ path('article_edit', {'id': article.id}) }}" class="btn btn-warning">Modifier l'article</a>
+        {{ include('article/_delete_form.html.twig') }}
         {% endif %}
+      </div>
     </div>
-{% endmacro %}
-
-{% macro attachmentForm(form) %}
-    {% import 'article/_macro_article.html.twig' as article_macro %}
-
-    <button type="button" class="btn btn-outline-primary mb-3 add-attachment" data-collection-holder-class="attachments">
-        Ajouter une nouveau fichier
-    </button>
-    <div class="collection-attachments"
-         data-index="{{ form.attachments|length > 0 ? form.attachments|last.vars.name + 1 : 0 }}"
-         data-prototype="{{ article_macro.displayAttachment(form.attachments.vars.prototype, false)|e('html_attr') }}">
-        {% for attachment in form.attachments %}
-            {{ article_macro.displayAttachment(attachment, true) }}
-        {% endfor %}
-    </div>
-{% endmacro %}
-
-{% macro attachementImageGallery(form) %}
-    {% set imagesCollection = form.vars.data.images %}
-
-    {{ form_row(form.images) }}
-    <div class="collection-gallery">
-        {% for image in imagesCollection %}
-            <img src="{{ asset(pathArticleAttachment ~ image.filename) }}" alt="{{ image.originalFilename }}" />
-            <a href="{{ path('article_delete_attachment', {'article': form.vars.data.id, 'attachment': image.id}) }}">Supprimer l'image</a>
-        {% endfor %}
-    </div>
-{% endmacro %}
-
-{% macro carousel(images) %}
-    <div class="swiper">
-        <div class="swiper-wrapper">
-            {% for image in images %}
-                <img class="swiper-slide" src=" {{ asset(pathArticleAttachment ~ image.filename) }}" alt="{{ image.originalFilename }}"/>
-            {% endfor %}
-        </div>
-        <div class="swiper-pagination"></div>
-        <div class="swiper-button-prev"></div>
-        <div class="swiper-button-next"></div>
-        <div class="swiper-scrollbar"></div>
-    </div>
-{% endmacro %}
+  </div>
+</div>
+{% else %}
+<div class="col-lg-6 col-md-12">
+  <div class="container">
+    <h5>Pas encore d'article !</h5>
+  </div>
+</div>
+{% endfor %}

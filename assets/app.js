@@ -14,9 +14,11 @@ global.$ = global.jQuery = $;
 import '@popperjs/core';
 import 'bootstrap';
 
+let nbLoad=1;
 let scrollPos = 0;
 const mainNav = document.getElementById('mainNav');
 const headerHeight = mainNav.clientHeight;
+
 window.addEventListener('scroll', function() {
     const currentTop = document.body.getBoundingClientRect().top * -1;
     if ( currentTop < scrollPos) {
@@ -87,6 +89,35 @@ function registerAttachmentsForm() {
                 $(this).closest('.attachment').remove();
             }
         });
+    });
+}
+
+$(window).scroll(function () {
+    if ($(window).scrollTop() >= $(document).height() - $(window).height()) {
+        $()
+        loadArticle();
+    }
+});
+
+
+function loadArticle(){
+    $.ajax({
+        url:        '/article/load/ajax',
+        type:       'POST',
+        dataType:   'json',
+        async:      true,
+        data:       {offset:nbLoad},
+
+        success: function(data, status) {
+            $('#containerArticle').append(data['html']);
+            nbLoad = data['offset'];
+        },
+        error : function(xhr, textStatus, errorThrown) {
+            console.log(xhr);
+            console.log(textStatus);
+            console.log(errorThrown);
+            alert('Ajax request failed.');
+        }
     });
 }
 

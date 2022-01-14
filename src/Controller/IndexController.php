@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Repository\ArticleRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -17,7 +18,7 @@ class IndexController extends AbstractController
     public function index(ArticleRepository $articleRepository): Response
     {
         return $this->render('article/index.html.twig', [
-            'articles' => $articleRepository->findBy([],[],10),
+            'articles' => $articleRepository->findBy([],['dateAdd' => 'ASC'],10,3),
         ]);
     }
 
@@ -27,12 +28,13 @@ class IndexController extends AbstractController
      */
     public function lastArticle(ArticleRepository $articleRepository): Response
     {
-        $articles = $articleRepository->findBy([],['dateAdd' => 'ASC'], 3);
+        $articles = $articleRepository->findBy([],['dateAdd' => 'DESC'], 3);
 
         return $this->render('article/_last_article.html.twig', [
             'articles' => $articles,
         ]);
     }
+
 
     /**
      * @return Response
