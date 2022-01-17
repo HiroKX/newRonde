@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Panneau Administrateur{% endblock %}
+
+{% block body %}
+    <div class="mx-auto w-75">
+        <h2>Panneau Administrateur</h2>
+        <p>Pour modifier ou supprimer : </p>
+        <a class="btn btn-primary" href="{{ path('admin_articles') }}">Articles</a>
+        <a class="btn btn-primary" href="{{ path('admin_archives') }}">Archives</a>
+        <a class="btn btn-primary" href="{{ path('admin_types') }}">Types</a>
+    </div>
+{% endblock %}

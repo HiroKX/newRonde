@@ -18,7 +18,7 @@ class IndexController extends AbstractController
     public function index(ArticleRepository $articleRepository): Response
     {
         return $this->render('article/index.html.twig', [
-            'articles' => $articleRepository->findBy([],['dateAdd' => 'ASC'],10,3),
+            'articles' => $articleRepository->findBy([],['dateAdd' => 'DESC'],10,3),
         ]);
     }
 

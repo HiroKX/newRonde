@@ -171,7 +171,7 @@ class ArticleController extends AbstractController
 
         if ($request->isXmlHttpRequest()) {
             $offset = $request->get('offset');
-            $articles = $articleRepository->findBy([],['dateAdd' => 'ASC'],10,10*$offset);
+            $articles = $articleRepository->findBy([],['dateAdd' => 'DESC'],10,(10*$offset)+3);
             return $this->render('article/ajax_article.html.twig',['articles'=>$articles]);
         }else{
             return $this->redirectToRoute('index', [], Response::HTTP_SEE_OTHER);

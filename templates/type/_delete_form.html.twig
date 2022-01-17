@@ -1,5 +1,5 @@
 <form method="post" action="{{ path('type_delete', {'code': type.code}) }}" class="d-inline" onsubmit="return confirm('Etes-vous sûre de vouloir supprimer ? Tout les articles seront supprimés avec ! ');">
     <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ type.code) }}">
-    <button class="btn btn-danger mt-2">Supprimer le type</button>
+    <button class="btn btn-danger">Supprimer le type</button>
 </form>
 
