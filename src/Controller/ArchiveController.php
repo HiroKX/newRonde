@@ -28,13 +28,6 @@ class ArchiveController extends AbstractController
         ]);
     }
 
-    /**
-     * @param Request $request
-     * @param EntityManagerInterface $entityManager
-     * @return Response
-     */
-    #[IsGranted('ROLE_ADMIN')]
-
 
     /**
      * @param Archive $archive

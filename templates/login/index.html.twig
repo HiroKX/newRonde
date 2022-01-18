@@ -3,6 +3,7 @@
 {% block title %}Connexion Administrateur{% endblock %}
 
 {% block body %}
+   <div class="mx-auto w-75 align-items-center article">
     {% if error %}
         <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
     {% endif %}
@@ -22,4 +23,5 @@
 
         <button type="submit" class="btn btn-primary">Se connecter</button>
     </form>
+    </div>
 {% endblock %}
