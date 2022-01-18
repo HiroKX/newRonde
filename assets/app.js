@@ -97,11 +97,7 @@ function registerAttachmentsForm() {
     });
 }
 
-$(window).scroll(function () {
-    if ($(window).scrollTop() >= $(document).height() - $(window).height()) {
-        loadArticle();
-    }
-});
+$('#btn-load').click(loadArticle);
 
 
 
