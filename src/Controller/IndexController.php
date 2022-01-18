@@ -34,14 +34,4 @@ class IndexController extends AbstractController
             'articles' => $articles,
         ]);
     }
-
-
-    /**
-     * @return Response
-     */
-    #[Route('/contact', name: 'contact', methods: ['GET'])]
-    public function contact(): Response
-    {
-        return $this->render('contact.html.twig');
-    }
 }

@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+    <div class="divperso mx-auto">
+        <p>Nous sommes joignables de plusieurs façon différentes : </p>
+        <ul>
+            <li>
+                Par courriel : {{ email }}
+            </li>
+            <li>
+                Par facebook : <a href="{{ link_fb }}" target="_blank">Ronde des Lingons</a>
+            </li>
+        </ul>
+        <div class="col-sm-12">
+            <div class="form-group">
+                {{ form_start(form) }}
+                {{ form_row(form.nom, {'attr': {'class': 'form-control'}}) }}
+
+
+            </div>
+            <div class="form-group">
+                {{ form_row(form.email, {'attr': {'class': 'form-control'}}) }}
+
+            </div>
+            <div class="form-group">
+                {{ form_row(form.message, {'attr': {'class': 'form-control'}}) }}
+
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Send" class="btn btn-primary py-3 px-5">
+            </div>
+            {{ form_end(form) }}
+        </div>
+
+    </div>
+    </div>
+{% endblock %}

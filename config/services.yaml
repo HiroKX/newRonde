@@ -7,6 +7,8 @@ parameters:
     upload: 'uploads/'
     fb: 'https://www.facebook.com/rallye.deslingons'
     email.address: 'car-langres@orange.fr'
+    sender.email: 'contact.rondelingons@gmail.com'
+    receiver.email: 'contact.rondelingons@gmail.com'
 
 services:
     # default configuration for services in *this* file
