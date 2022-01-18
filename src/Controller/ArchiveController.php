@@ -28,6 +28,30 @@ class ArchiveController extends AbstractController
         ]);
     }
 
+    /**
+     * @param Request $request
+     * @param EntityManagerInterface $entityManager
+     * @return Response
+     */
+    #[Route('/new', name: 'archive_new', methods: ['GET', 'POST'])]
+    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    {
+        $archive = new Archive();
+        $form = $this->createForm(ArchiveType::class, $archive);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->persist($archive);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('archive_index', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->renderForm('archive/new.html.twig', [
+            'archive' => $archive,
+            'form' => $form,
+        ]);
+    }
 
     /**
      * @param Archive $archive
