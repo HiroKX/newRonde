@@ -3,6 +3,9 @@
 namespace App\Controller;
 
 use App\Form\ContactType;
+use App\Service\AlertServiceInterface;
+use App\Service\FileUploadServiceInterface;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -12,6 +15,12 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class ContactController extends AbstractController
 {
+    private AlertServiceInterface $alertService;
+
+    public function __construct( AlertServiceInterface $alertService)
+    {
+        $this->alertService = $alertService;
+    }
 
     #[Route('/contact', name:'contact')]
     public function index(Request $request, MailerInterface $mailer):Response
@@ -33,7 +42,7 @@ class ContactController extends AbstractController
                     'text/plain');
             $mailer->send($message);
 
-            $this->addFlash('success', 'Vore message a été envoyé');
+            $this->alertService->info('Votre message à bien été envoyé.');
 
             return $this->redirectToRoute('contact');
         }
