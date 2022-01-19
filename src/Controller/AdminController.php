@@ -191,7 +191,7 @@ class AdminController extends AbstractController
      * @param Request $request
      * @return Response
      */
-    #[Route('/article/new', name: 'article_new', methods: ['GET', 'POST'])]
+    #[Route('/articles/new', name: 'article_new', methods: ['GET', 'POST'])]
     public function new(Request $request): Response
     {
         $article = new Article();
