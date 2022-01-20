@@ -4,6 +4,14 @@
 <div class="mx-auto w-75">
     {{ render(controller('App\\Controller\\IndexController::lastArticle')) }}
     <hr class="my-4" />
+    <div class="w-50 mx-auto bg-light mb-2" >
+        <select class="btn btn-default mx-auto w-100 dropdown-toggle" id="selector-type" data-toggle="dropdown">
+            <option value="all">Tous</option>
+            {% for type in types %}
+                <option value="{{ type.code }}">{{ type.nom }}</option>
+            {% endfor %}
+        </select>
+    </div>
     <div class="row" id="containerArticle" >
         {{ include('article/ajax_article.html.twig', {'articles': articles}) }}
     </div>

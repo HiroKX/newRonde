@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Repository\ArticleRepository;
+use App\Repository\TypeRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -15,10 +16,11 @@ class IndexController extends AbstractController
      * @return Response
      */
     #[Route('/', name: 'index', methods: ['GET'])]
-    public function index(ArticleRepository $articleRepository): Response
+    public function index(ArticleRepository $articleRepository,TypeRepository $typeRepository): Response
     {
         return $this->render('article/index.html.twig', [
             'articles' => $articleRepository->findBy([],['dateAdd' => 'DESC'],10,3),
+            'types' => $typeRepository->findAll(),
         ]);
     }
 

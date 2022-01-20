@@ -111,8 +111,13 @@ class ArticleController extends AbstractController
 
         if ($request->isXmlHttpRequest()) {
             $offset = $request->get('offset');
-            $articles = $articleRepository->findBy([],['dateAdd' => 'DESC'],10,(10*$offset)+3);
-            return $this->render('article/ajax_article.html.twig',['articles'=>$articles]);
+            $types = $request->get('type');
+            $cond = [];
+            if(!is_null($types) && $types != 'all'){
+                $cond['type']=$types;
+            }
+            $articles = $articleRepository->findBy($cond,['dateAdd' => 'DESC'],10,(10*$offset));
+            return $this->render('article/ajax_article.html.twig',['articles'=>$articles,'typ'=>$types]);
         }else{
             return $this->redirectToRoute('index', [], Response::HTTP_SEE_OTHER);
         }
