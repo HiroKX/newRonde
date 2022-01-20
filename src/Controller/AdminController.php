@@ -18,6 +18,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use function PHPUnit\Framework\isNull;
 
 /**
  * Created by HiroKX
@@ -201,7 +202,9 @@ class AdminController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->uploadAttachment($form->get('attachments')->getData(), $article);
             $this->uploadImageGallery($form->get('images')->getData(), $article);
-
+            if(is_null($form->get('contenu')->getData())){
+                $article->setContenu('<p></p>');
+            }
             $this->entityManager->persist($article);
             $this->entityManager->flush();
 

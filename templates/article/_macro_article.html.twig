@@ -31,7 +31,7 @@
   {% import 'article/_macro_article.html.twig' as article_macro %}
 
   <button type="button" class="btn btn-outline-primary mb-3 add-attachment" data-collection-holder-class="attachments">
-    Ajouter une nouveau fichier
+    Ajouter un nouveau fichier
   </button>
   <div class="collection-attachments"
        data-index="{{ form.attachments|length > 0 ? form.attachments|last.vars.name + 1 : 0 }}"
