@@ -82,8 +82,6 @@ class AdminController extends AbstractController
     #[ROUTE('/archives',name:'admin_archives')]
     public function adminArchives(ArchiveRepository $archiveRepository):Response
     {
-
-
         return $this->render('admin/Archives.html.twig',[
             'archives' => $archiveRepository->findAll()
         ]);

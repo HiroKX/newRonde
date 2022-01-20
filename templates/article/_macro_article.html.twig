@@ -58,7 +58,10 @@
   <div class="swiper">
     <div class="swiper-wrapper">
       {% for image in images %}
-        <img class="swiper-slide" src=" {{ asset(pathArticleAttachment ~ image.filename) }}" alt="{{ image.originalFilename }}"/>
+        <div class="swiper-slide">
+          <img class="swiper-lazy" data-src=" {{ asset(pathArticleAttachment ~ image.filename) }}" alt="{{ image.originalFilename }}"/>
+          <div class="swiper-lazy-preloader swiper-lazy-preloader-white"></div>
+        </div>
       {% endfor %}
     </div>
     <div class="swiper-pagination"></div>
