@@ -7,6 +7,7 @@ new Swiper('.swiper', {
     // Optional parameters
     direction: 'horizontal',
     loop: true,
+    autoHeight: true,
 
     // If we need pagination
     pagination: {
@@ -24,3 +25,4 @@ new Swiper('.swiper', {
         el: '.swiper-scrollbar',
     },
 });
+
