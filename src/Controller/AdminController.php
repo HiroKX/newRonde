@@ -114,9 +114,7 @@ class AdminController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->uploadAttachment($form->get('attachments')->getData(), $article);
             $this->uploadImageGallery($form->get('images')->getData(), $article);
-
             $this->entityManager->flush();
-
             $this->alertService->success('Article modifié');
 
             return $this->redirectToRoute('index', [], Response::HTTP_SEE_OTHER);
@@ -127,6 +125,38 @@ class AdminController extends AbstractController
             'form' => $form,
         ]);
     }
+
+    /**
+     * @param Request $request
+     * @return Response
+     */
+    #[Route('/articles/new', name: 'article_new', methods: ['GET', 'POST'])]
+    public function new(Request $request): Response
+    {
+        $article = new Article();
+        $form = $this->createForm(ArticleType::class, $article);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->uploadAttachment($form->get('attachments')->getData(), $article);
+            $this->uploadImageGallery($form->get('images')->getData(), $article);
+            if(is_null($form->get('contenu')->getData())){
+                $article->setContenu('<p></p>');
+            }
+            $this->entityManager->persist($article);
+            $this->entityManager->flush();
+
+            $this->alertService->success('Article créer');
+
+            return $this->redirectToRoute('index', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->renderForm('article/new.html.twig', [
+            'article' => $article,
+            'form' => $form,
+        ]);
+    }
+
 
     /**
      * @param Article $article
@@ -185,37 +215,6 @@ class AdminController extends AbstractController
         return $this->redirectToRoute('index', [], Response::HTTP_SEE_OTHER);
     }
 
-
-    /**
-     * @param Request $request
-     * @return Response
-     */
-    #[Route('/articles/new', name: 'article_new', methods: ['GET', 'POST'])]
-    public function new(Request $request): Response
-    {
-        $article = new Article();
-        $form = $this->createForm(ArticleType::class, $article);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $this->uploadAttachment($form->get('attachments')->getData(), $article);
-            $this->uploadImageGallery($form->get('images')->getData(), $article);
-            if(is_null($form->get('contenu')->getData())){
-                $article->setContenu('<p></p>');
-            }
-            $this->entityManager->persist($article);
-            $this->entityManager->flush();
-
-            $this->alertService->success('Article créer');
-
-            return $this->redirectToRoute('index', [], Response::HTTP_SEE_OTHER);
-        }
-
-        return $this->renderForm('article/new.html.twig', [
-            'article' => $article,
-            'form' => $form,
-        ]);
-    }
 
     /**
      * @param string $pathAttachmentArticle

@@ -45,13 +45,10 @@ class FileUploadService implements FileUploadServiceInterface
 
         try {
             $file->move($this->getTargetDirectory(), $fileName);
-
             $attachment->setOriginalFilename($originalFilename);
             $attachment->setFilename($fileName);
             $attachment->setTaille($this->getSize($fileName));
-
             $this->entityManager->persist($attachment);
-            $this->entityManager->flush();
         } catch (FileException $e) {
             throw new \RuntimeException('Error during file upload '.$e->getMessage() . ':' . $e->getTraceAsString());
         }

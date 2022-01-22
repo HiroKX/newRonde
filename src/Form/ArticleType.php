@@ -33,6 +33,7 @@ class ArticleType extends AbstractType
                 'attr' => [
                     'class' => 'js-editor',
                 ],
+                'empty_data' => '<p></p>',
                 'required' => false,
             ])
             ->add('attachments', CollectionType::class, [
