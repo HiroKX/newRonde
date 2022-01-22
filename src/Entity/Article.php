@@ -49,6 +49,12 @@ class Article
     #[InverseJoinColumn(name: "attachments_id", referencedColumnName: "id")]
     private Collection $images;
 
+    #[ManyToMany(targetEntity: Attachment::class, cascade: ["remove", "persist"], orphanRemoval: true)]
+    #[JoinTable(name: "article_image_attachment_no_gallery")]
+    #[JoinColumn(name: "article_id", referencedColumnName: "id")]
+    #[InverseJoinColumn(name: "attachments_id", referencedColumnName: "id")]
+    private Collection $imagesAttachments;
+
     #[ORM\Column(type: 'datetime')]
     private \DateTimeInterface $dateAdd;
 
@@ -57,6 +63,7 @@ class Article
         $this->dateAdd = new \DateTime();
         $this->attachments = new ArrayCollection();
         $this->images = new ArrayCollection();
+        $this->imagesAttachments = new ArrayCollection();
     }
 
     /**
@@ -241,6 +248,38 @@ class Article
     public function removeImage(Attachment $attachment): self
     {
         $this->images->removeElement($attachment);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|null
+     */
+    public function getImagesAttachments(): ?Collection
+    {
+        return $this->imagesAttachments;
+    }
+
+    /**
+     * @param Attachment $attachment
+     * @return $this
+     */
+    public function addImageAttachments(Attachment $attachment): self
+    {
+        if (!$this->imagesAttachments->contains($attachment)) {
+            $this->imagesAttachments[] = $attachment;
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param Attachment $attachment
+     * @return $this
+     */
+    public function removeImageAttachments(Attachment $attachment): self
+    {
+        $this->imagesAttachments->removeElement($attachment);
 
         return $this;
     }

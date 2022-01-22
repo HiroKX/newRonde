@@ -54,6 +54,19 @@
   </div>
 {% endmacro %}
 
+{% macro attachementImage(form) %}
+  {% set imagesCollection = form.vars.data.imagesAttachments %}
+
+  {{ form_row(form.imagesAttachments) }}
+  <div class="collection-gallery">
+    {% for image in imagesCollection %}
+      <img src="{{ asset(pathArticleAttachment ~ image.filename) }}" alt="{{ image.originalFilename }}" />
+      <a href="{{ path('article_delete_attachment', {'article': form.vars.data.id, 'attachment': image.id}) }}">Supprimer l'image</a>
+    {% endfor %}
+  </div>
+{% endmacro %}
+
+
 {% macro carousel(images) %}
   <div class="swiper">
     <div class="swiper-wrapper">
@@ -68,5 +81,17 @@
     <div class="swiper-button-prev"></div>
     <div class="swiper-button-next"></div>
     <div class="swiper-scrollbar"></div>
+  </div>
+{% endmacro %}
+
+
+{% macro display_image(images) %}
+  {% for image in images %}
+      <a href="#" class="fancylight popup-btn" data-fancybox-group="light">
+        <img src="{{ asset(pathArticleAttachment ~ image.filename) }}" class="img_nogallery w-25">
+      </a>
+  {% endfor %}
+  <div id="my_modal" class="modal">
+    <img id="imagemodal" class="modal-content" src="">
   </div>
 {% endmacro %}

@@ -50,6 +50,13 @@ class ArticleType extends AbstractType
                 'attr'=>['accept' => "image/*"],
                 'mapped' => false,
             ])
+            ->add('imagesAttachments',FileType::class,[
+                'required' => false,
+                'multiple' => true,
+                'label' => 'Image(s) sans gallerie',
+                'attr'=>['accept' => "image/*"],
+                'mapped' => false,
+            ])
             ->add('type', EntityType::class, [
                 'class' => Type::class,
                 'choice_label' => 'nom',

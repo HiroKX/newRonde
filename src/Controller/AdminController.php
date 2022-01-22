@@ -113,6 +113,7 @@ class AdminController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->uploadAttachment($form->get('attachments')->getData(), $article);
+            $this->uploadImage($form->get('imagesAttachments')->getData(), $article);
             $this->uploadImageGallery($form->get('images')->getData(), $article);
             $this->entityManager->flush();
             $this->alertService->success('Article modifié');
@@ -139,6 +140,7 @@ class AdminController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->uploadAttachment($form->get('attachments')->getData(), $article);
+            $this->uploadImage($form->get('imagesAttachments')->getData(), $article);
             $this->uploadImageGallery($form->get('images')->getData(), $article);
             if(is_null($form->get('contenu')->getData())){
                 $article->setContenu('<p></p>');
@@ -206,6 +208,15 @@ class AdminController extends AbstractController
                 $this->entityManager->flush();
             }
 
+            $imagesAttach = $article->getImagesAttachments();
+            foreach ($imagesAttach as $image) {
+                $this->uploaderService->delete($image);
+
+                $article->removeImageAttachments($image);
+                $this->entityManager->remove($image);
+                $this->entityManager->flush();
+            }
+
             $this->entityManager->remove($article);
             $this->entityManager->flush();
         }
@@ -216,16 +227,6 @@ class AdminController extends AbstractController
     }
 
 
-    /**
-     * @param string $pathAttachmentArticle
-     * @param Attachment $attachment
-     * @return Response
-     */
-    #[Route('/download/attachment/{id}', name: 'article_download_attachment')]
-    public function downloadAttachment(string $pathAttachmentArticle, Attachment $attachment): Response
-    {
-        return $this->file($pathAttachmentArticle . $attachment->getFilename());
-    }
 
 
     /**
@@ -259,6 +260,22 @@ class AdminController extends AbstractController
 
             $attachmentObject = $this->uploaderService->upload($attachment);
             $article->addImage($attachmentObject);
+        }
+    }
+
+    /**
+     * @param array $images
+     * @param Article $article
+     * @return void
+     */
+    private function uploadImage(array $images, Article $article): void
+    {
+        foreach ($images as $image) {
+            $attachment = new Attachment();
+            $attachment->setFile($image);
+
+            $attachmentObject = $this->uploaderService->upload($attachment);
+            $article->addImageAttachments($attachmentObject);
         }
     }
 

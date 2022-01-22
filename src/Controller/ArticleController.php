@@ -51,6 +51,17 @@ class ArticleController extends AbstractController
     }
 
     /**
+     * @param string $pathAttachmentArticle
+     * @param Attachment $attachment
+     * @return Response
+     */
+    #[Route('/download/attachment/{id}', name: 'article_download_attachment')]
+    public function downloadAttachment(string $pathAttachmentArticle, Attachment $attachment): Response
+    {
+        return $this->file($pathAttachmentArticle . $attachment->getFilename());
+    }
+
+    /**
      * @param ArticleRepository $articleRepository
      * @return Response
      * @throws ORMException

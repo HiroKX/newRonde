@@ -21,6 +21,9 @@
                     </a></li>
             {% endfor %}
         </ul>
+        {% if not article.imagesAttachments is empty  %}
+            {{ article_macro.display_image(article.imagesAttachments) }}
+        {% endif %}
         {% if not article.images is empty  %}
         {{ article_macro.carousel(article.images) }}
         {% endif %}
