@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 {% block body %}
     <div class="divperso mx-auto">
-        <p>Nous sommes joignables de plusieurs façon différentes : </p>
+        <p>Voici les différentes façons de nous contacter : </p>
         <ul>
             <li>
                 Par courriel : {{ email }}
@@ -10,6 +10,7 @@
                 Par facebook : <a href="{{ link_fb }}" target="_blank">Ronde des Lingons</a>
             </li>
         </ul>
+        <p>Ou bien par ce formulaire de contact : </p>
         <div class="col-sm-12">
                 {{ form_start(form) }}
                 {{ form_row(form.nom) }}
@@ -18,7 +19,5 @@
             <button type="submit" class="btn btn-primary py-3 px-5">Envoyer</button>
             {{ form_end(form) }}
         </div>
-
-    </div>
     </div>
 {% endblock %}
