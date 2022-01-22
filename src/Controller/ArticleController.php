@@ -84,7 +84,7 @@ class ArticleController extends AbstractController
         $article = $articleRepository->findOneBy(['type' => $type],['dateAdd'=>'DESC']);
 
         if (!$article) {
-            $this->alertService->info(sprintf('Aucun article de type "%s" vous avez été rediriger vers la page d\'acceuil.', $type->getNom()));
+            $this->alertService->info(sprintf('Aucun article de type "%s". Vous avez été rediriger vers la page d\'accueil.', $type->getNom()));
             return $this->redirectToRoute('index');
         }
 
