@@ -25,7 +25,7 @@ class Type
     #[ORM\Column(type: 'string', length: 255)]
     private string $nom;
 
-    #[ORM\OneToMany(mappedBy: 'type', targetEntity: Article::class)]
+    #[ORM\OneToMany(mappedBy: 'type', targetEntity: Article::class, orphanRemoval: true)]
     private Collection $articles;
 
     #[Pure]

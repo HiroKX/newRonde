@@ -72,8 +72,7 @@ class TypeController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
-
-            return $this->redirectToRoute('type_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('admin_index', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('type/edit.html.twig', [
@@ -97,6 +96,6 @@ class TypeController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('type_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('admin_index', [], Response::HTTP_SEE_OTHER);
     }
 }

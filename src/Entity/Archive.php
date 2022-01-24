@@ -22,7 +22,7 @@ class Archive
     #[ORM\Column(type: 'integer')]
     private int $annee;
 
-    #[ORM\OneToMany(mappedBy: 'annee', targetEntity: Article::class)]
+    #[ORM\OneToMany(mappedBy: 'annee', targetEntity: Article::class, orphanRemoval: true)]
     private Collection $articles;
 
     #[Pure]
