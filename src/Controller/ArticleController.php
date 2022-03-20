@@ -50,16 +50,6 @@ class ArticleController extends AbstractController
         return $this->showArticle(Type::CODE_REGLEMENT, $articleRepository);
     }
 
-    /**
-     * @param ArticleRepository $articleRepository
-     * @return Response
-     * @throws ORMException
-     */
-    #[Route('/document', name: 'article_doc', methods: ['GET'])]
-    public function document(ArticleRepository $articleRepository): Response
-    {
-        return $this->showArticle(Type::CODE_DOCUMENT, $articleRepository);
-    }
 
     /**
      * @param string $pathAttachmentArticle
