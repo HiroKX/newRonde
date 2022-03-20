@@ -19,7 +19,7 @@ final class Version20220112105633 extends AbstractMigration
         // Type
         $this->addSql('INSERT INTO `type` (code, nom) VALUES ("ART", "Article")');
         $this->addSql('INSERT INTO `type` (code, nom) VALUES ("GAL", "Gallerie")');
-        $this->addSql('INSERT INTO `type` (code, nom) VALUES ("ETA", "Zone Etalonnage")');
+        $this->addSql('INSERT INTO `type` (code, nom) VALUES ("DOC", "Document")');
         $this->addSql('INSERT INTO `type` (code, nom) VALUES ("REG", "Règlement")');
         $this->addSql('INSERT INTO `type` (code, nom) VALUES ("ENG", "Engagement")');
         $this->addSql('INSERT INTO `type` (code, nom) VALUES ("RES", "Résultat")');

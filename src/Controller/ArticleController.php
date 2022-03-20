@@ -51,6 +51,17 @@ class ArticleController extends AbstractController
     }
 
     /**
+     * @param ArticleRepository $articleRepository
+     * @return Response
+     * @throws ORMException
+     */
+    #[Route('/document', name: 'article_doc', methods: ['GET'])]
+    public function document(ArticleRepository $articleRepository): Response
+    {
+        return $this->showArticle(Type::CODE_DOCUMENT, $articleRepository);
+    }
+
+    /**
      * @param string $pathAttachmentArticle
      * @param Attachment $attachment
      * @return Response
@@ -61,16 +72,6 @@ class ArticleController extends AbstractController
         return $this->file($pathAttachmentArticle . $attachment->getFilename());
     }
 
-    /**
-     * @param ArticleRepository $articleRepository
-     * @return Response
-     * @throws ORMException
-     */
-    #[Route('/etalonnage', name: 'article_eta', methods: ['GET'])]
-    public function etalonnage(ArticleRepository $articleRepository): Response
-    {
-        return $this->showArticle(Type::CODE_ETALONNAGE, $articleRepository);
-    }
 
     /**
      * @param ArticleRepository $articleRepository
