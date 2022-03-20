@@ -27,6 +27,9 @@
         {% if not article.images is empty  %}
         {{ article_macro.carousel(article.images) }}
         {% endif %}
+        {% if article.type.code == "RES" %}
+            <p>Les résultats ne sont pas définitifs, nous nous réservons le droit de changer les résultats à tout moment.</p>
+        {% endif %}
         <div class="mt-2">
             <a href="{{ path('index') }}" class="btn btn-primary">Retour</a>
         </div>

@@ -22,7 +22,7 @@ class TypeType extends AbstractType
                 'disabled' => $options['is_disabled'],
             ])
             ->add('nom', TextType::class, [
-                'label' => 'Non',
+                'label' => 'Nom',
                 'required' => true,
             ])
         ;

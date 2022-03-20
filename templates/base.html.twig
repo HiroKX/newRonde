@@ -14,6 +14,7 @@
     {% endblock %}
 </head>
 <body>
+{% if not app.user %}
     <nav class="navbar navbar-expand-lg navbar-light" id="mainNav">
         <div class="container px-4 px-lg-5">
             <img class="navbar-brand img-nav" src="{{ asset('build/images/img.png') }}" alt="logo" />
@@ -23,9 +24,6 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav ms-auto py-4 py-lg-0">
-                    {% if app.user %}
-                        <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="{{ path('admin_index') }}">Admin</a></li>
-                    {% endif %}
                     <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="{{ path('index') }}">Accueil</a></li>
                     <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="{{ path('archive_index') }}">Historique</a></li>
                     <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="{{ path('article_eng') }}">Engagement</a></li>
@@ -36,7 +34,30 @@
             </div>
         </div>
     </nav>
+{% else %}
+    <nav class="navbar navbar-light navbar-expand-lg position-relative" id="mainNav">
+        <div class="container px-4 px-lg-5">
+            <img class="navbar-brand img-nav" src="{{ asset('build/images/img.png') }}" alt="logo" />
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                Menu
+                <i class="fas fa-bars"></i>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="navbar-nav ms-auto py-4 py-lg-0">
+                    <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4 text-black" href="{{ path('admin_index') }}">Admin</a></li>
+                    <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4  text-black" href="{{ path('index') }}">Accueil</a></li>
+                    <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4  text-black" href="{{ path('archive_index') }}">Historique</a></li>
+                    <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4  text-black" href="{{ path('article_eng') }}">Engagement</a></li>
+                    <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4  text-black" href="{{ path('article_reg') }}">Règlement</a></li>
+                    <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4  text-black" href="{{ path('article_eta') }}">Etalonnage</a></li>
+                    <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4  text-black" href="{{ path('contact') }}">Contact</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+{% endif %}
 
+{% if not app.user %}
     <header class="carousel slide" data-bs-ride="carousel">
         <div class="carousel-inner">
             <div class="masthead carousel-item active" style="background-image: url({{ asset('build/images/imgCarousel1.jpg') }})">
@@ -89,6 +110,7 @@
             </div>
         </div>
     </header>
+    {% endif %}
     <div class="container-fluid">
         {{ include('_flash_message.html.twig') }}
         {% block body %}{% endblock %}

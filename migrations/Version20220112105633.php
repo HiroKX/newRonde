@@ -22,6 +22,7 @@ final class Version20220112105633 extends AbstractMigration
         $this->addSql('INSERT INTO `type` (code, nom) VALUES ("ETA", "Zone Etalonnage")');
         $this->addSql('INSERT INTO `type` (code, nom) VALUES ("REG", "Règlement")');
         $this->addSql('INSERT INTO `type` (code, nom) VALUES ("ENG", "Engagement")');
+        $this->addSql('INSERT INTO `type` (code, nom) VALUES ("RES", "Résultat")');
 
         // Achive
         $this->addSql('INSERT INTO `archive` (denom, annee) VALUES ("année 2020", 2020)');
