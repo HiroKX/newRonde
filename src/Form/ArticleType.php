@@ -13,6 +13,9 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\All;
+use Symfony\Component\Validator\Constraints\File;
+use Symfony\Component\Validator\Constraints\Image;
 
 class ArticleType extends AbstractType
 {
@@ -48,6 +51,13 @@ class ArticleType extends AbstractType
                 'multiple' => true,
                 'label' => 'Image(s)',
                 'attr'=>['accept' => "image/*"],
+                'constraints' => [
+                    new All([
+                        new Image([
+                            'maxSize' => '5M'
+                        ])
+                    ])
+                ],
                 'mapped' => false,
             ])
             ->add('imagesAttachments',FileType::class,[
@@ -55,6 +65,13 @@ class ArticleType extends AbstractType
                 'multiple' => true,
                 'label' => 'Image(s) sans gallerie',
                 'attr'=>['accept' => "image/*"],
+                'constraints' => [
+                    new All([
+                        new Image([
+                            'maxSize' => '5M'
+                        ])
+                    ])
+                ],
                 'mapped' => false,
             ])
             ->add('type', EntityType::class, [
