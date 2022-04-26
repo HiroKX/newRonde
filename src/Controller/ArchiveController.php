@@ -89,7 +89,6 @@ class ArchiveController extends AbstractController
     #[Route('/{id}', name: 'archive_show', methods: ['GET'])]
     public function show(Archive $archive,ArticleRepository $articleRepository): Response
     {
-        var_dump($archive->getId());
         $article = $articleRepository->findBy(['annee'=> $archive->getId()]);
         return $this->render('archive/show.html.twig', [
             'archive' => $archive,
