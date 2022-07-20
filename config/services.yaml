@@ -7,7 +7,7 @@ parameters:
     upload: 'uploads/'
     fb: 'https://www.facebook.com/rallye.deslingons'
     email.address: 'car-langres@orange.fr'
-    sender.email: 'contact.rondelingons@gmail.com'
+    sender.email: 'r.lagler@laposte.net'
     receiver.email: 'contact.rondelingons@gmail.com'
 
 services:
