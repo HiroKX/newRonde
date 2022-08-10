@@ -293,7 +293,7 @@ class Article
                 $this->removeImagesGallery($attachment);
             }
         }
-        
+
         return $this;
     }
 
