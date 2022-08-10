@@ -62,7 +62,6 @@ class FileUploadService implements FileUploadServiceInterface
     public function delete(Attachment $attachment): bool
     {
         $file = $this->getTargetDirectory() . $attachment->getFilename();
-
         if (!file_exists($file)) {
             throw new FileException(sprintf('The %s file do not exist.', $this->getTargetDirectory() . $attachment->getFilename()));
         }

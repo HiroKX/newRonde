@@ -271,4 +271,30 @@ class Article
         return $this;
     }
 
+    public function removeAttachment(Attachment $attachment)
+    {
+        $fileArray = $this->getFiles()->toArray();
+        $imageArray = $this->getImages()->toArray();
+        $imageGalArray = $this->getImagesGallery()->toArray();
+        if(count($fileArray)){
+            if(array_search($attachment,$fileArray) || $fileArray[0]->getId() == $attachment->getId()){
+                $this->removeFile($attachment);
+            }
+        }
+
+        if(count($imageArray)){
+            if(array_search($attachment,$imageArray) || $imageArray[0]->getId() == $attachment->getId()){
+                $this->removeImage($attachment);
+            }
+        }
+
+        if(count($imageGalArray)){
+            if(array_search($attachment,$imageGalArray) || $imageGalArray[0]->getId() == $attachment->getId()){
+                $this->removeImagesGallery($attachment);
+            }
+        }
+        
+        return $this;
+    }
+
 }

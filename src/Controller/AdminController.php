@@ -169,10 +169,10 @@ class AdminController extends AbstractController
     #[Route('/article/delete/attachment/{article}/{attachment}', name: 'article_delete_attachment')]
     public function deleteAttachment(Article $article, Attachment $attachment, Request $request): Response
     {
-        $this->entityManager->remove($attachment);
+        $article->removeAttachment($attachment);
         $this->entityManager->flush();
-
         $this->uploaderService->delete($attachment);
+
 
         $this->alertService->success('Fichier supprimer');
 

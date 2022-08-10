@@ -48,7 +48,7 @@
   {{ form_row(form.imagesGallery) }}
   <div class="collection-gallery">
     {% for image in imagesCollection %}
-      <img src="{{ asset(pathArticleAttachment ~ image.filename) }}" alt="{{ image.originalFilename }}" />
+      <img src="{{ asset(pathArticleAttachment ~ image.filename) }}" alt="{{ image.originalFilename }}"  style="width:10%"/>
       <a href="{{ path('article_delete_attachment', {'article': form.vars.data.id, 'attachment': image.id}) }}">Supprimer l'image</a>
     {% endfor %}
   </div>
