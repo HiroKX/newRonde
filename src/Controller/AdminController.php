@@ -194,8 +194,9 @@ class AdminController extends AbstractController
             foreach ($attachments as $attachment) {
                 $this->uploaderService->delete($attachment);
 
-                $this->entityManager->remove($attachment);
                 $article->removeAttachment($attachment);
+                $this->entityManager->remove($attachment);
+                $this->persist($article);
                 $this->entityManager->flush();
             }
 
@@ -203,8 +204,9 @@ class AdminController extends AbstractController
             foreach ($images as $image) {
                 $this->uploaderService->delete($image);
 
-                $this->entityManager->remove($image);
                 $article->removeImage($image);
+                $this->entityManager->remove($image);
+                $this->persist($article);
                 $this->entityManager->flush();
             }
 
@@ -212,8 +214,9 @@ class AdminController extends AbstractController
             foreach ($imagesAttach as $image) {
                 $this->uploaderService->delete($image);
 
-                $this->entityManager->remove($image);
                 $article->removeImageAttachments($image);
+                $this->entityManager->remove($image);
+                $this->persist($article);
                 $this->entityManager->flush();
             }
 
