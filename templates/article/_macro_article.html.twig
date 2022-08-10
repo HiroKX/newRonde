@@ -34,18 +34,18 @@
     Ajouter un nouveau fichier
   </button>
   <div class="collection-attachments"
-       data-index="{{ form.attachments|length > 0 ? form.attachments|last.vars.name + 1 : 0 }}"
-       data-prototype="{{ article_macro.displayAttachment(form.attachments.vars.prototype, false)|e('html_attr') }}">
-    {% for attachment in form.attachments %}
+       data-index="{{ form.files|length > 0 ? form.files|last.vars.name + 1 : 0 }}"
+       data-prototype="{{ article_macro.displayAttachment(form.files.vars.prototype, false)|e('html_attr') }}">
+    {% for attachment in form.files %}
       {{ article_macro.displayAttachment(attachment, true) }}
     {% endfor %}
   </div>
 {% endmacro %}
 
 {% macro attachementImageGallery(form) %}
-  {% set imagesCollection = form.vars.data.images %}
+  {% set imagesCollection = form.vars.data.imagesGallery %}
 
-  {{ form_row(form.images) }}
+  {{ form_row(form.imagesGallery) }}
   <div class="collection-gallery">
     {% for image in imagesCollection %}
       <img src="{{ asset(pathArticleAttachment ~ image.filename) }}" alt="{{ image.originalFilename }}" />
@@ -55,9 +55,9 @@
 {% endmacro %}
 
 {% macro attachementImage(form) %}
-  {% set imagesCollection = form.vars.data.imagesAttachments %}
+  {% set imagesCollection = form.vars.data.images %}
 
-  {{ form_row(form.imagesAttachments) }}
+  {{ form_row(form.images) }}
   <div class="collection-gallery">
     {% for image in imagesCollection %}
       <img src="{{ asset(pathArticleAttachment ~ image.filename) }}" alt="{{ image.originalFilename }}" />

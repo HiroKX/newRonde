@@ -15,17 +15,17 @@
         <h5>{{ article.utitre }}</h5>
         <div>{{ article.contenu | raw }}</div>
         <ul class="breaking">
-            {% for attachment in article.attachments %}
+            {% for attachment in article.files %}
                 <li><a href="{{ path('article_download_attachment', {'id': attachment.id}) }}">
                         Document a télécharger : {{ attachment.originalFilename }}
                     </a></li>
             {% endfor %}
         </ul>
-        {% if not article.imagesAttachments is empty  %}
-            {{ article_macro.display_image(article.imagesAttachments) }}
-        {% endif %}
         {% if not article.images is empty  %}
-        {{ article_macro.carousel(article.images) }}
+            {{ article_macro.display_image(article.images) }}
+        {% endif %}
+        {% if not article.imagesGallery is empty  %}
+        {{ article_macro.carousel(article.imagesGallery) }}
         {% endif %}
         {% if article.type.code == "RES" %}
             <p>Les résultats ne sont pas définitifs, nous nous réservons le droit de changer les résultats à tout moment.</p>

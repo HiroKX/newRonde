@@ -24,6 +24,16 @@ class Attachment{
 
     private ?UploadedFile $file = null;
 
+    #[ORM\ManyToOne(targetEntity: Article::class, inversedBy: 'files')]
+    private $articleFiles;
+
+    #[ORM\ManyToOne(targetEntity: Article::class, inversedBy: 'images')]
+    private $articleImages;
+
+    #[ORM\ManyToOne(targetEntity: Article::class, inversedBy: 'imagesGallery')]
+    private $articleImagesGallery;
+
+
     public function setId(int $id):void
     {
         $this->id = $id;
@@ -112,4 +122,42 @@ class Attachment{
 
         return $this;
     }
+
+    public function getArticleFiles(): ?Article
+    {
+        return $this->articleFiles;
+    }
+
+    public function setArticleFiles(?Article $articleFiles): self
+    {
+        $this->articleFiles = $articleFiles;
+
+        return $this;
+    }
+
+    public function getArticleImages(): ?Article
+    {
+        return $this->articleImages;
+    }
+
+    public function setArticleImages(?Article $articleImages): self
+    {
+        $this->articleImages = $articleImages;
+
+        return $this;
+    }
+
+    public function getArticleImagesGallery(): ?Article
+    {
+        return $this->articleImagesGallery;
+    }
+
+    public function setArticleImagesGallery(?Article $articleImagesGallery): self
+    {
+        $this->articleImagesGallery = $articleImagesGallery;
+
+        return $this;
+    }
+
+
 }

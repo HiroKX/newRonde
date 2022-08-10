@@ -10,6 +10,7 @@ use Doctrine\ORM\Mapping\InverseJoinColumn;
 use Doctrine\ORM\Mapping\JoinColumn;
 use Doctrine\ORM\Mapping\JoinTable;
 use Doctrine\ORM\Mapping\ManyToMany;
+use Doctrine\ORM\Mapping\OneToMany;
 use JetBrains\PhpStorm\Pure;
 
 #[ORM\Entity(repositoryClass: ArticleRepository::class)]
@@ -37,33 +38,25 @@ class Article
     #[ORM\JoinColumn(nullable: false)]
     private Archive $annee;
 
-    #[ManyToMany(targetEntity: Attachment::class, cascade: ["remove", "persist"], orphanRemoval: true)]
-    #[JoinTable(name: "article_file_attachment")]
-    #[JoinColumn(name: "article_id", referencedColumnName: "id")]
-    #[InverseJoinColumn(name: "attachments_id", referencedColumnName: "id")]
-    private Collection $attachments;
-
-    #[ManyToMany(targetEntity: Attachment::class, cascade: ["remove", "persist"], orphanRemoval: true)]
-    #[JoinTable(name: "article_image_attachment")]
-    #[JoinColumn(name: "article_id", referencedColumnName: "id")]
-    #[InverseJoinColumn(name: "attachments_id", referencedColumnName: "id")]
-    private Collection $images;
-
-    #[ManyToMany(targetEntity: Attachment::class, cascade: ["remove", "persist"], orphanRemoval: true)]
-    #[JoinTable(name: "article_image_attachment_no_gallery")]
-    #[JoinColumn(name: "article_id", referencedColumnName: "id")]
-    #[InverseJoinColumn(name: "attachments_id", referencedColumnName: "id")]
-    private Collection $imagesAttachments;
-
     #[ORM\Column(type: 'datetime')]
     private \DateTimeInterface $dateAdd;
+
+    #[ORM\OneToMany(mappedBy: 'articleFiles', targetEntity: Attachment::class)]
+    private $files;
+
+    #[ORM\OneToMany(mappedBy: 'articleImages', targetEntity: Attachment::class)]
+    private $images;
+
+    #[ORM\OneToMany(mappedBy: 'articleImagesGallery', targetEntity: Attachment::class)]
+    private $imagesGallery;
+
 
     public function __construct()
     {
         $this->dateAdd = new \DateTime();
-        $this->attachments = new ArrayCollection();
+        $this->files = new ArrayCollection();
         $this->images = new ArrayCollection();
-        $this->imagesAttachments = new ArrayCollection();
+        $this->imagesGallery = new ArrayCollection();
     }
 
     /**
@@ -189,98 +182,93 @@ class Article
     }
 
     /**
-     * @return Collection
+     * @return Collection|Attachment[]
      */
-    public function getAttachments(): Collection
+    public function getFiles(): Collection
     {
-        return $this->attachments;
+        return $this->files;
     }
 
-    /**
-     * @param Attachment $attachment
-     * @return $this
-     */
-    public function addAttachment(Attachment $attachment): self
+    public function addFile(Attachment $file): self
     {
-        if (!$this->attachments->contains($attachment)) {
-            $this->attachments[] = $attachment;
+        if (!$this->files->contains($file)) {
+            $this->files[] = $file;
+            $file->setArticleFiles($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFile(Attachment $file): self
+    {
+        if ($this->files->removeElement($file)) {
+            // set the owning side to null (unless already changed)
+            if ($file->getArticleFiles() === $this) {
+                $file->setArticleFiles(null);
+            }
         }
 
         return $this;
     }
 
     /**
-     * @param Attachment $attachment
-     * @return $this
+     * @return Collection|Attachment[]
      */
-    public function removeAttachment(Attachment $attachment): self
-    {
-        $this->attachments->removeElement($attachment);
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|null
-     */
-    public function getImages(): ?Collection
+    public function getImages(): Collection
     {
         return $this->images;
     }
 
-    /**
-     * @param Attachment $attachment
-     * @return $this
-     */
-    public function addImage(Attachment $attachment): self
+    public function addImage(Attachment $image): self
     {
-        if (!$this->images->contains($attachment)) {
-            $this->images[] = $attachment;
+        if (!$this->images->contains($image)) {
+            $this->images[] = $image;
+            $image->setArticleImages($this);
+        }
+
+        return $this;
+    }
+
+    public function removeImage(Attachment $image): self
+    {
+        if ($this->images->removeElement($image)) {
+            // set the owning side to null (unless already changed)
+            if ($image->getArticleImages() === $this) {
+                $image->setArticleImages(null);
+            }
         }
 
         return $this;
     }
 
     /**
-     * @param Attachment $attachment
-     * @return $this
+     * @return Collection|Attachment[]
      */
-    public function removeImage(Attachment $attachment): self
+    public function getImagesGallery(): Collection
     {
-        $this->images->removeElement($attachment);
-
-        return $this;
+        return $this->imagesGallery;
     }
 
-    /**
-     * @return Collection|null
-     */
-    public function getImagesAttachments(): ?Collection
+    public function addImagesGallery(Attachment $imagesGallery): self
     {
-        return $this->imagesAttachments;
-    }
-
-    /**
-     * @param Attachment $attachment
-     * @return $this
-     */
-    public function addImageAttachments(Attachment $attachment): self
-    {
-        if (!$this->imagesAttachments->contains($attachment)) {
-            $this->imagesAttachments[] = $attachment;
+        if (!$this->imagesGallery->contains($imagesGallery)) {
+            $this->imagesGallery[] = $imagesGallery;
+            $imagesGallery->setArticleImagesGallery($this);
         }
 
         return $this;
     }
 
-    /**
-     * @param Attachment $attachment
-     * @return $this
-     */
-    public function removeImageAttachments(Attachment $attachment): self
+    public function removeImagesGallery(Attachment $imagesGallery): self
     {
-        $this->imagesAttachments->removeElement($attachment);
+        if ($this->imagesGallery->removeElement($imagesGallery)) {
+            // set the owning side to null (unless already changed)
+            if ($imagesGallery->getArticleImagesGallery() === $this) {
+                $imagesGallery->setArticleImagesGallery(null);
+            }
+        }
 
         return $this;
     }
+
 }

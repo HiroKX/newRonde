@@ -139,9 +139,9 @@ class AdminController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->uploadAttachment($form->get('attachments')->getData(), $article);
-            $this->uploadImage($form->get('imagesAttachments')->getData(), $article);
-            $this->uploadImageGallery($form->get('images')->getData(), $article);
+            $this->uploadAttachment($form->get('files')->getData(), $article);
+            $this->uploadImage($form->get('images')->getData(), $article);
+            $this->uploadImageGallery($form->get('imagesGallery')->getData(), $article);
             if(is_null($form->get('contenu')->getData())){
                 $article->setContenu('<p></p>');
             }
@@ -169,13 +169,12 @@ class AdminController extends AbstractController
     #[Route('/article/delete/attachment/{article}/{attachment}', name: 'article_delete_attachment')]
     public function deleteAttachment(Article $article, Attachment $attachment, Request $request): Response
     {
-        $article->removeImage($attachment);
         $this->entityManager->remove($attachment);
         $this->entityManager->flush();
 
         $this->uploaderService->delete($attachment);
 
-        $this->alertService->success('Image de la gallerie supprimée');
+        $this->alertService->success('Fichier supprimer');
 
         return $this->redirect($request->headers->get('referer'));
     }
@@ -190,29 +189,23 @@ class AdminController extends AbstractController
     public function delete(Request $request, Article $article): Response
     {
         if ($this->isCsrfTokenValid('delete'.$article->getId(), $request->request->get('_token'))) {
-            $attachments = $article->getAttachments();
+            $attachments = $article->getFiles();
             foreach ($attachments as $attachment) {
-                $this->uploaderService->delete($attachment);
-
-                $this->entityManager->remove($attachment);
+                $article->removeFile($attachment);
                 $this->entityManager->persist($article);
                 $this->entityManager->flush();
             }
 
             $images = $article->getImages();
             foreach ($images as $image) {
-                $this->uploaderService->delete($image);
-
-                $this->entityManager->remove($image);
+                $article->removeImage($image);
                 $this->entityManager->persist($article);
                 $this->entityManager->flush();
             }
 
-            $imagesAttach = $article->getImagesAttachments();
+            $imagesAttach = $article->getImagesGallery();
             foreach ($imagesAttach as $image) {
-                $this->uploaderService->delete($image);
-                
-                $this->entityManager->remove($image);
+                $article->removeImagesGallery($image);
                 $this->entityManager->persist($article);
                 $this->entityManager->flush();
             }
@@ -242,7 +235,7 @@ class AdminController extends AbstractController
 
             if ($imageUploadedFile) {
                 $attachmentObject = $this->uploaderService->upload($attachment);
-                $article->addAttachment($attachmentObject);
+                $article->addFile($attachmentObject);
             }
         }
     }
@@ -259,7 +252,7 @@ class AdminController extends AbstractController
             $attachment->setFile($image);
 
             $attachmentObject = $this->uploaderService->upload($attachment);
-            $article->addImage($attachmentObject);
+            $article->addImagesGallery($attachmentObject);
         }
     }
 
@@ -275,7 +268,7 @@ class AdminController extends AbstractController
             $attachment->setFile($image);
 
             $attachmentObject = $this->uploaderService->upload($attachment);
-            $article->addImageAttachments($attachmentObject);
+            $article->addImage($attachmentObject);
         }
     }
 

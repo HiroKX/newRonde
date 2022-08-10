@@ -39,14 +39,14 @@ class ArticleType extends AbstractType
                 'empty_data' => '<p></p>',
                 'required' => false,
             ])
-            ->add('attachments', CollectionType::class, [
+            ->add('files', CollectionType::class, [
                 'entry_type' => AttachmentType::class,
                 'allow_add' => true,
                 'allow_delete' => true,
                 'by_reference' => false,
                 'row_attr' => ['class' => 'd-none'],
             ])
-            ->add('images',FileType::class,[
+            ->add('imagesGallery',FileType::class,[
                 'required' => false,
                 'multiple' => true,
                 'label' => 'Image(s)',
@@ -60,7 +60,7 @@ class ArticleType extends AbstractType
                 ],
                 'mapped' => false,
             ])
-            ->add('imagesAttachments',FileType::class,[
+            ->add('images',FileType::class,[
                 'required' => false,
                 'multiple' => true,
                 'label' => 'Image(s) sans gallerie',
