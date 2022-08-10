@@ -196,7 +196,7 @@ class AdminController extends AbstractController
 
                 $article->removeAttachment($attachment);
                 $this->entityManager->remove($attachment);
-                $this->persist($article);
+                $this->entityManager->persist($article);
                 $this->entityManager->flush();
             }
 
@@ -206,7 +206,7 @@ class AdminController extends AbstractController
 
                 $article->removeImage($image);
                 $this->entityManager->remove($image);
-                $this->persist($article);
+                $this->entityManager->persist($article);
                 $this->entityManager->flush();
             }
 
@@ -216,7 +216,7 @@ class AdminController extends AbstractController
 
                 $article->removeImageAttachments($image);
                 $this->entityManager->remove($image);
-                $this->persist($article);
+                $this->entityManager->persist($article);
                 $this->entityManager->flush();
             }
 
