@@ -112,9 +112,9 @@ class AdminController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->uploadAttachment($form->get('attachments')->getData(), $article);
-            $this->uploadImage($form->get('imagesAttachments')->getData(), $article);
-            $this->uploadImageGallery($form->get('images')->getData(), $article);
+            $this->uploadAttachment($form->get('files')->getData(), $article);
+            $this->uploadImage($form->get('images')->getData(), $article);
+            $this->uploadImageGallery($form->get('imagesGallery')->getData(), $article);
             $this->entityManager->flush();
             $this->alertService->success('Article modifié');
 
