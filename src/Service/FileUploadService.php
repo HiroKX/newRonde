@@ -64,7 +64,7 @@ class FileUploadService implements FileUploadServiceInterface
         $file = $this->getTargetDirectory() . $attachment->getFilename();
 
         if (!file_exists($file)) {
-            throw new FileException(sprintf('The %s file do not exist.', $attachment->getOriginalFilename()));
+            throw new FileException(sprintf('The %s file do not exist.', $this->getTargetDirectory() . $attachment->getFilename()));
         }
 
         return unlink($file);
