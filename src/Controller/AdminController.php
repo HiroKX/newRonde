@@ -83,7 +83,7 @@ class AdminController extends AbstractController
     public function adminArchives(ArchiveRepository $archiveRepository):Response
     {
         return $this->render('admin/Archives.html.twig',[
-            'archives' => $archiveRepository->findAll()
+            'archives' => $archiveRepository->findByDateDESC()
         ]);
     }
 

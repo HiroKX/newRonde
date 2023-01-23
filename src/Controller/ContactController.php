@@ -27,10 +27,7 @@ class ContactController extends AbstractController
     {
         $form = $this->createForm(ContactType::class);
         $form->handleRequest($request);
-
-
         if($form->isSubmitted() && $form->isValid()) {
-
             $contactFormData = $form->getData();
 
             $message = (new Email())
@@ -40,9 +37,14 @@ class ContactController extends AbstractController
                 ->text('Depuis : '.$contactFormData['email'].\PHP_EOL.
                     $contactFormData['message'],
                     'text/plain');
-            $mailer->send($message);
+            try{
+                $mailer->send($message);
+                $this->alertService->info('Votre message à bien été envoyé.');
 
-            $this->alertService->info('Votre message à bien été envoyé.');
+            }catch (\Exception $e){
+                $this->alertService->danger('Votre message n\' a pas pu  bien être envoyé. Envoyez votre mail sur contact.ronde-lingons.fr');
+
+            }
 
             return $this->redirectToRoute('contact');
         }

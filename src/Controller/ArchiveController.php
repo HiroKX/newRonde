@@ -33,7 +33,7 @@ class ArchiveController extends AbstractController
     public function index(ArchiveRepository $archiveRepository): Response
     {
         return $this->render('archive/index.html.twig', [
-            'archives' => $archiveRepository->findAll(),
+            'archives' => $archiveRepository->findByDateDESC(),
         ]);
     }
 
@@ -46,11 +46,12 @@ class ArchiveController extends AbstractController
     public function document(ArchiveRepository $achiveRepository,ArticleRepository $articleRepository): Response
     {
         $archive = $achiveRepository->findOneBy(['annee' => date('Y')]);
-        $article = $articleRepository->findBy(['annee'=> $archive->getId()]);
         if (!$archive) {
             $this->alertService->info('Aucune information pour cette année n\'a été trouvé pour le moment.');
             return $this->redirectToRoute('index');
         }
+        $article = $articleRepository->findBy(['annee'=> $archive->getId()]);
+
         return $this->render('archive/show.html.twig', [
             'archive' => $archive,
             'articles' => $article

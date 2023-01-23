@@ -19,6 +19,15 @@ class ArchiveRepository extends ServiceEntityRepository
         parent::__construct($registry, Archive::class);
     }
 
+    public function findByDateDESC()
+    {
+        return $this->createQueryBuilder('a')
+            ->orderBy('a.annee', 'DESC')
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
     // /**
     //  * @return Archive[] Returns an array of Archive objects
     //  */

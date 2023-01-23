@@ -5,6 +5,8 @@ namespace App\Form;
 use App\Entity\Archive;
 use App\Entity\Article;
 use App\Entity\Type;
+use App\Repository\ArchiveRepository;
+use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
@@ -83,6 +85,10 @@ class ArticleType extends AbstractType
             ])
             ->add('annee', EntityType::class, [
                 'class' => Archive::class,
+                'query_builder'=>
+                    function (EntityRepository $er) {return $er->createQueryBuilder('a')
+                        ->orderBy('a.annee', 'DESC');
+                       },
                 'choice_label' => 'denom',
                 'placeholder' => 'Choisir une année...',
                 'multiple' => false,
